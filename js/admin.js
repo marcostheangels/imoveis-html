@@ -397,8 +397,90 @@ function deleteProperty(id) {
 }
 
 function viewProperty(id) {
-    window.open(`index.html?id=${id}`, '_blank');
+    const property = adminState.properties.find(p => p.id === id);
+    if (!property) return;
+
+    const modal = document.getElementById('propertyModal');
+    const gallery = document.getElementById('propertyModalGallery');
+    const details = document.getElementById('propertyModalDetails');
+
+    const price = property.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+    // Gallery
+    let galleryHtml = `<img src="${property.images[0]}" alt="${property.title}">`;
+    if (property.images.length > 1) {
+        galleryHtml += `
+            <button class="gallery-nav prev" onclick="navigateGalleryModal(-1)">&#10094;</button>
+            <button class="gallery-nav next" onclick="navigateGalleryModal(1)">&#10095;</button>
+            <div class="gallery-dots">
+                ${property.images.map((_, i) => `<button class="gallery-dot ${i === 0 ? 'active' : ''}" onclick="navigateToImageModal(${i})"></button>`).join('')}
+            </div>
+        `;
+    }
+    gallery.innerHTML = galleryHtml;
+
+    // Details
+    let specsHtml = '';
+    if (property.rooms > 0) specsHtml += `<div class="spec-item"><i class="fas fa-bed"></i><span>Quartos</span><strong>${property.rooms}</strong></div>`;
+    if (property.bathrooms > 0) specsHtml += `<div class="spec-item"><i class="fas fa-bath"></i><span>Banheiros</span><strong>${property.bathrooms}</strong></div>`;
+    if (property.garages > 0) specsHtml += `<div class="spec-item"><i class="fas fa-car"></i><span>Garagens</span><strong>${property.garages}</strong></div>`;
+    if (property.area > 0) specsHtml += `<div class="spec-item"><i class="fas fa-ruler-combined"></i><span>Área</span><strong>${property.area}m²</strong></div>`;
+
+    let featuresHtml = '';
+    if (property.features && property.features.length > 0) {
+        featuresHtml = '<div class="features-list">' + property.features.map(f => `<span class="feature-tag">${f}</span>`).join('') + '</div>';
+    }
+
+    details.innerHTML = `
+        <h2>${property.title}</h2>
+        <div class="price">${price}</div>
+        <div class="location"><i class="fas fa-map-marker-alt"></i> ${property.location}</div>
+        <p class="description">${property.description}</p>
+        ${specsHtml ? `<div class="specs">${specsHtml}</div>` : ''}
+        ${featuresHtml}
+    `;
+
+    // Store current property and image index for navigation
+    window.currentModalProperty = property;
+    window.currentModalImageIndex = 0;
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
+
+function closePropertyModal() {
+    document.getElementById('propertyModal').classList.remove('active');
+    document.body.style.overflow = '';
+    window.currentModalProperty = null;
+}
+
+function navigateGalleryModal(direction) {
+    if (!window.currentModalProperty) return;
+    const len = window.currentModalProperty.images.length;
+    window.currentModalImageIndex = (window.currentModalImageIndex + direction + len) % len;
+    updateModalImage();
+}
+
+function navigateToImageModal(index) {
+    window.currentModalImageIndex = index;
+    updateModalImage();
+}
+
+function updateModalImage() {
+    const gallery = document.getElementById('propertyModalGallery');
+    const img = gallery.querySelector('img');
+    if (img && window.currentModalProperty) {
+        img.src = window.currentModalProperty.images[window.currentModalImageIndex];
+    }
+    // Update dots
+    gallery.querySelectorAll('.gallery-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === window.currentModalImageIndex);
+    });
+}
+
+window.closePropertyModal = closePropertyModal;
+window.navigateGalleryModal = navigateGalleryModal;
+window.navigateToImageModal = navigateToImageModal;
 
 function handlePropertySubmit(e) {
     e.preventDefault();
