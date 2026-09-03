@@ -1,28 +1,28 @@
-// Imagens SVG locais que sempre funcionam
+// Imagens Reais de Imóveis
 const propertyImages = {
     apartamento: [
-        "images/apartamentos/apt-living.svg",
-        "images/apartamentos/apt-cozinha.svg",
-        "images/apartamentos/apt-quarto.svg",
-        "images/apartamentos/apt-banheiro.svg"
+        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80",
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80",
+        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80",
+        "https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=800&q=80"
     ],
     casa: [
-        "images/casas/casa-frente.svg",
-        "images/casas/casa-jardim.svg",
-        "images/casas/casa-piscina.svg",
-        "images/casas/casa-living.svg"
+        "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80",
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+        "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&q=80"
     ],
     comercial: [
-        "images/comercial/sala-reuniao.svg",
-        "images/comercial/sala-trabalho.svg",
-        "images/comercial/sala-recepcao.svg",
-        "images/comercial/sala-area.svg"
+        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
+        "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&q=80",
+        "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=800&q=80",
+        "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80"
     ],
     terreno: [
-        "images/terrenos/terreno-vista.svg",
-        "images/terrenos/terreno-area.svg",
-        "images/terrenos/terreno-acesso.svg",
-        "images/terrenos/terreno-mapa.svg"
+        "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80",
+        "https://images.unsplash.com/photo-1628624747186-a941c476b7ef?w=800&q=80",
+        "https://images.unsplash.com/photo-1448630360428-65456885c650?w=800&q=80",
+        "https://images.unsplash.com/photo-1518173946687-a4c036bc4874?w=800&q=80"
     ]
 };
 
