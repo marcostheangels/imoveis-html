@@ -1,161 +1,151 @@
-# 📋 PROJETO IMOBILIÁRIO - MARCOS
+# ImobPrime - Site Imobiliário
 
-## Status Atual
-✅ Site criado e publicado no GitHub
-✅ 24 imóveis cadastrados com fotos e descrições
-✅ 3 temas (Moderno, Clássico, Luxo)
-✅ Sistema de favoritos e comparação funcionando
-✅ Redes sociais (WhatsApp, Facebook, Instagram)
-⚠️ AGUARDANDO: Verificar se fotos estão aparecendo corretamente
+## 📌 Resumo do Projeto
+
+Site imobiliário profissional com painel administrativo completo, desenvolvido para a conta GitHub `marcostheangels`.
+
+**Repositório:** https://github.com/marcostheangels/imoveis-html
 
 ---
 
-## 📁 ESTRUTURA DO PROJETO
+## 🌐 Links Online
+
+| Página | URL |
+|--------|-----|
+| **Site Principal** | https://marcostheangels.github.io/imoveis-html/ |
+| **Painel Admin** | https://marcostheangels.github.io/imoveis-html/admin.html |
+
+---
+
+## 📁 Estrutura de Arquivos
 
 ```
 site imobiliario/
-├── index.html              (estrutura principal do site)
+├── index.html          # Site principal
+├── admin.html         # Painel administrativo
 ├── css/
-│   ├── styles.css         (estilos gerais)
-│   └── themes.css         (temas: moderno, clássico, luxo)
+│   ├── styles.css     # Estilos do site principal
+│   ├── themes.css     # Temas (Moderno, Clássico, Luxo)
+│   └── admin.css      # Estilos do painel admin
 ├── js/
-│   ├── data.js            (dados dos imóveis - EDITAR AQUI)
-│   └── main.js            (lógica JavaScript)
-└── images/
-    ├── apartamentos/       (imagens SVG placeholder)
-    ├── casas/
-    ├── comercial/
-    ├── terrenos/
-    └── logo/
+│   ├── data.js        # Dados dos imóveis
+│   ├── main.js        # Lógica do site principal
+│   └── admin.js       # Lógica do painel admin
+└── images/            # Imagens SVG dos ícones
 ```
 
 ---
 
-## 🔗 LINKS IMPORTANTES
+## 🎯 Funcionalidades do Site
 
-- **Site Online:** https://marcostheangels.github.io/imoveis-html/
-- **Repositório:** https://github.com/marcostheangels/imoveis-html
-
----
-
-## 📝 COMO EDITAR
-
-### 1. Adicionar/Editar Imóveis (js/data.js)
-```javascript
-{
-    id: 25,
-    title: "Nome do Imóvel",
-    type: "apartamento",  // apartamento, casa, comercial, terreno
-    purpose: "venda",      // venda ou aluguel
-    price: 1500000,
-    location: "Bairro, Cidade - UF",
-    address: "Rua, Número",
-    rooms: 3,
-    bathrooms: 2,
-    garages: 2,
-    area: 120,
-    description: "Descrição detalhada do imóvel...",
-    features: ["Característica 1", "Característica 2", "Característica 3"],
-    images: [
-        "https://images.unsplash.com/photo-ID?w=800&q=80",
-        "https://images.unsplash.com/photo-ID?w=800&q=80",
-        "https://images.unsplash.com/photo-ID?w=800&q=80",
-        "https://images.unsplash.com/photo-ID?w=800&q=80"
-    ],
-    featured: true  // true = aparece como destaque
-}
-```
-
-### 2. Alterar Redes Sociais (index.html)
-Localize a linha ~200 e altere os links:
-```html
-<a href="https://wa.me/SEU_NUMERO" ...>WhatsApp</a>
-<a href="https://facebook.com/SEU_PERFIL" ...>Facebook</a>
-<a href="https://instagram.com/SEU_PERFIL" ...>Instagram</a>
-```
-
-### 3. Mudar Informações de Contato (index.html)
-- Telefone: Linha ~188
-- Endereço: Linha ~181
-- E-mail: Linha ~195
-
-### 4. Personalizar Temas (css/themes.css)
-```css
-[data-theme="seu-tema"] {
-    --primary: #COR_PRINCIPAL;
-    --secondary: #COR_SECUNDARIA;
-    --accent: #COR_DESTAQUE;
-    --bg: #COR_FUNDO;
-    /* ... outras cores */
-}
-```
-
-### 5. Trocar Fotos dos Imóveis
-```javascript
-// Buscar foto no Unsplash:
-1. Acesse https://unsplash.com
-2. Busque "apartamento" ou "house"
-3. Clique na foto desejada
-4. Copie o link da imagem (ou o ID da foto)
-5. Use: "https://images.unsplash.com/photo-ID?w=800&q=80"
-```
+- ✅ Filtros (tipo, finalidade, preço, quartos, ordenação)
+- ✅ Busca por texto
+- ✅ Favoritos (salvos no navegador)
+- ✅ Comparação de até 3 imóveis
+- ✅ Modal com galeria de fotos
+- ✅ Simulador de financiamento
+- ✅ Seção "Como Funciona"
+- ✅ Depoimentos de clientes
+- ✅ Formulário de contato
+- ✅ Botão WhatsApp flutuante
+- ✅ Botão voltar ao topo
+- ✅ Menu responsivo para mobile
+- ✅ 3 temas visuais (Moderno, Clássico, Luxo)
 
 ---
 
-## 🚀 COMANDOS GIT (para atualizar o site)
+## 🎛️ Painel Administrativo (Admin)
 
+### Acessar
+- URL: `https://marcostheangels.github.io/imoveis-html/admin.html`
+- Ou clique no ícone ⚙️ no site principal
+
+### Funcionalidades
+
+| Seção | O que faz |
+|-------|-----------|
+| **Dashboard** | Visão geral com estatísticas e gráficos |
+| **Imóveis** | Listar, editar, excluir, visualizar |
+| **Adicionar Imóvel** | Cadastrar novo imóvel com todos os dados |
+| **Upload de Fotos** | Sistema de upload com drag & drop |
+| **Depoimentos** | Gerenciar avaliações dos clientes |
+| **Mensagens** | Ver mensagens do formulário de contato |
+| **Configurações** | Dados da empresa, redes sociais, cores |
+
+### Como adicionar/edtar imóvel
+1. Menu → **Adicionar Imóvel**
+2. Preencher: título, tipo, finalidade, preço, quartos, banheiros, garagens, área
+3. Localização e endereço
+4. Descrição detalhada
+5. Características (checkboxes)
+6. Imagens (URLs ou upload)
+7. Marcar como destaque (opcional)
+8. Salvar
+
+### Backup dos dados
+- **Exportar Dados**: Baixa JSON com tudo
+- **Importar Dados**: Restaura de um backup
+
+⚠️ **Importante**: Dados salvos no navegador (localStorage). Limpar cache apaga!
+
+---
+
+## ⚙️ Configurações do GitHub Pages
+
+1. GitHub → Repositório → **Settings**
+2. Menu esquerdo → **Pages**
+3. Source: **Deploy from a branch** → **master** → **/ (root)**
+4. Save
+5. Aguardar ~2 minutos
+
+---
+
+## 🛠️ Tecnologias Usadas
+
+- HTML5
+- CSS3 (com variáveis CSS e temas)
+- JavaScript Vanilla
+- Font Awesome 6.4 (ícones)
+- Google Fonts (Montserrat, Playfair Display, Lora)
+- LocalStorage (persistência de dados)
+- GitHub Pages (hospedagem)
+
+---
+
+## 📝 Observações Técnicas
+
+### Sincronização
+- Admin salva dados no `localStorage` com chave `admin_properties`, `admin_testimonials`, etc.
+- Site principal lê esses dados via `localStorage`
+- Verificação automática a cada 2 segundos por mudanças
+
+### Imagens
+- Usa URLs do Unsplash como padrão
+- Admin permite upload de imagens próprias (converte para Base64)
+- Limite: 5MB por imagem
+
+### Depoimentos
+- Carregados do `localStorage` no admin
+- Exibidos na seção "O que nossos clientes dizem" do site
+
+---
+
+## 🔄 Para Atualizar o Código
+
+1. Edite os arquivos localmente
+2. Commit e push:
 ```bash
-# 1. Entre na pasta do projeto
-cd "C:\Users\MARCOS\Desktop\site imobiliario"
-
-# 2. Adicionar alterações
-git add .
-
-# 3. Fazer commit
-git commit -m "Descrição do que foi alterado"
-
-# 4. Enviar para o GitHub
-git push
+git add -A
+git commit -m "descrição da mudança"
+git push origin master
 ```
 
 ---
 
-## 📌 TAREFAS PENDENTES
+## 📧 Contato do Desenvolvedor
 
-1. ⚠️ Verificar se fotos estão aparecendo corretamente
-2. ⬜ Trocar fotos placeholder por fotos reais dos imóveis
-3. ⬜ Personalizar links das redes sociais com dados reais
-4. ⬜ Adicionar mais imóveis com fotos próprias
-5. ⬜ Adicionar mapa do Google Maps no contato
-6. ⬜ Criar formulário de contato funcional (enviar e-mail)
+Desenvolvido com assistance via OpenCode.
 
 ---
 
-## 📞 SUPORTE RÁPIDO
-
-### Problema: Fotos não aparecem
-1. Verifique se `data.js` está sendo carregado
-2. Verifique se há erro no console (F12)
-3. Teste o link da imagem diretamente no navegador
-
-### Problema: Site não atualiza online
-1. Aguarde 1-2 minutos após o push
-2. Limpe o cache do navegador (Ctrl + F5)
-3. Teste em modo anônimo
-
----
-
-## 💡 DICAS
-
-- Para boas fotos, use imagens com no mínimo 800x600px
-- Formato recomendado: JPG ou WebP
-- Comprima as fotos para o site carregar mais rápido
-- Salve as fotos na pasta `images/` para ter backup local
-
----
-
-## 📅 Data da última atualização
-03/09/2026 - 01:00
-
-## 👤 Proprietário
-Marcos - GitHub: marcostheangels
+*Última atualização: 2026*
