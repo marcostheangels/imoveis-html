@@ -373,7 +373,7 @@ function editProperty(id) {
     form.featured.checked = property.featured || false;
 
     // Set images for new upload system
-    propertyImages = property.images ? [...property.images] : [];
+    propertyImagesList = property.images ? [...property.images] : [];
     renderPropertyImageGrid();
 
     // Set features checkboxes
@@ -411,7 +411,7 @@ function handlePropertySubmit(e) {
     });
 
     // Get images from the new upload system
-    const images = propertyImages.length > 0 ? propertyImages : ['https://via.placeholder.com/800x600'];
+    const images = propertyImagesList.length > 0 ? propertyImagesList : ['https://via.placeholder.com/800x600'];
 
     const propertyData = {
         id: adminState.editingPropertyId || Date.now(),
@@ -453,12 +453,12 @@ function clearPropertyForm() {
     const form = document.getElementById('propertyForm');
     form.reset();
     adminState.editingPropertyId = null;
-    propertyImages = [];
+    propertyImagesList = [];
     renderPropertyImageGrid();
 }
 
 // ============ IMAGE UPLOAD ============
-let propertyImages = [];
+let propertyImagesList = [];
 
 function setupImageUpload() {
     const uploadArea = document.getElementById('uploadArea');
@@ -541,7 +541,7 @@ function handlePropertyImageUpload(files) {
         const reader = new FileReader();
         reader.onload = (e) => {
             const imageData = e.target.result;
-            propertyImages.push(imageData);
+            propertyImagesList.push(imageData);
             renderPropertyImageGrid();
         };
         reader.readAsDataURL(file);
@@ -554,7 +554,7 @@ function renderPropertyImageGrid() {
 
     let html = '';
 
-    propertyImages.forEach((img, index) => {
+    propertyImagesList.forEach((img, index) => {
         html += `
             <div class="image-upload-item">
                 <img src="${img}" alt="Imagem ${index + 1}">
@@ -590,12 +590,12 @@ function renderPropertyImageGrid() {
     // Update textarea with image URLs
     const imagesUrls = document.getElementById('imagesUrls');
     if (imagesUrls) {
-        imagesUrls.value = propertyImages.join('\n');
+        imagesUrls.value = propertyImagesList.join('\n');
     }
 }
 
 function removePropertyImage(index) {
-    propertyImages.splice(index, 1);
+    propertyImagesList.splice(index, 1);
     renderPropertyImageGrid();
 }
 
