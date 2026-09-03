@@ -1,5 +1,4 @@
 // Global variables
-const properties = window.properties || [];
 let filteredProperties = [...properties];
 let currentModalProperty = null;
 let currentImageIndex = 0;
