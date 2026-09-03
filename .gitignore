@@ -8,3 +8,8 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Configurações sensíveis
+.env
+.env.local
+.env.*.local

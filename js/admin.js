@@ -40,7 +40,24 @@ document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
     loadSettings();
     updateDashboard();
+    updateGithubStatus();
 });
+
+function updateGithubStatus() {
+    const statusText = document.getElementById('githubStatusText');
+    const statusDiv = document.getElementById('githubStatus');
+    if (!statusText || !statusDiv) return;
+
+    if (isGithubConfigured()) {
+        statusText.textContent = 'Token Configurado ✓';
+        statusText.style.color = 'var(--success, green)';
+        statusDiv.innerHTML = '<span style="color: var(--success, green);">● Auto-deploy ativo - todas as alterações serão publicadas automaticamente</span>';
+    } else {
+        statusText.textContent = 'Configurar Token GitHub';
+        statusText.style.color = '';
+        statusDiv.innerHTML = '<span style="color: var(--text-light);">● Auto-deploy inativo - clique em "Configurar Token" para ativar</span>';
+    }
+}
 
 function initializeAdmin() {
     // Ensure testimonials has default data if empty
@@ -169,6 +186,9 @@ function navigateToSection(sectionId) {
             break;
         case 'contacts':
             renderContacts();
+            break;
+        case 'settings':
+            updateGithubStatus();
             break;
     }
 }
@@ -934,3 +954,141 @@ window.closeTestimonialModal = closeTestimonialModal;
 window.deleteMessage = deleteMessage;
 window.closeCompareModalFn = closeCompareModalFn;
 window.clearCompareList = clearCompareList;
+
+// ============ GITHUB AUTO-DEPLOY ============
+const GITHUB_CONFIG = {
+    owner: 'marcostheangels',
+    repo: 'imoveis-html',
+    branch: 'master'
+};
+
+function btoa_encrypt(text) {
+    return btoa(unescape(encodeURIComponent(text)));
+}
+
+function atob_decrypt(encoded) {
+    return decodeURIComponent(escape(atob(encoded)));
+}
+
+function getGithubToken() {
+    const encoded = localStorage.getItem('gh_token_encrypted');
+    if (encoded) {
+        try {
+            return atob_decrypt(encoded);
+        } catch (e) {
+            return null;
+        }
+    }
+    return null;
+}
+
+function saveGithubToken(token) {
+    const encoded = btoa_encrypt(token);
+    localStorage.setItem('gh_token_encrypted', encoded);
+}
+
+function isGithubConfigured() {
+    return !!getGithubToken();
+}
+
+function promptGithubToken() {
+    const token = prompt('Digite seu GitHub Personal Access Token (PAT):\n\nPara criar um token:\n1. Vá em GitHub → Settings → Developer settings\n2. Personal access tokens → Generate new token\n3. Selecione "repo" como escopo\n4. Copie o token e cole aqui');
+    if (token) {
+        saveGithubToken(token);
+        showToast('Token GitHub salvo com sucesso!', 'success');
+        return true;
+    }
+    return false;
+}
+
+async function deployToGithub() {
+    if (!isGithubConfigured()) {
+        const configured = promptGithubToken();
+        if (!configured) {
+            showToast('Deploy cancelado - token não configurado', 'error');
+            return;
+        }
+    }
+
+    const token = getGithubToken();
+    showToast('Publicando no GitHub...', 'info');
+
+    try {
+        const files = ['index.html', 'admin.html', 'css/styles.css', 'css/themes.css', 'css/admin.css', 'js/data.js', 'js/main.js', 'js/admin.js'];
+        const results = [];
+
+        for (const file of files) {
+            const content = await fetch(file).then(r => r.text());
+            const path = file;
+
+            const sha = await getFileSha(path, token);
+
+            const response = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${path}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: `Update ${path} via admin panel - ${new Date().toLocaleString('pt-BR')}`,
+                    content: btoa_encrypt(content),
+                    branch: GITHUB_CONFIG.branch,
+                    sha: sha
+                })
+            });
+
+            if (response.ok) {
+                results.push(`✓ ${path}`);
+            } else {
+                const error = await response.json();
+                if (error.message === 'This file exists in the file system') {
+                    showToast('Erro: GitHub Pages não pode atualizar arquivos que existem na branch. Usegh-pages branch.', 'error');
+                    return;
+                }
+                results.push(`✗ ${path}: ${error.message}`);
+            }
+        }
+
+        showToast('Publicado no GitHub com sucesso!', 'success');
+        console.log('Deploy results:', results);
+
+    } catch (error) {
+        showToast('Erro ao publicar: ' + error.message, 'error');
+        console.error('Deploy error:', error);
+    }
+}
+
+async function getFileSha(path, token) {
+    try {
+        const response = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${path}?ref=${GITHUB_CONFIG.branch}`, {
+            headers: {
+                'Authorization': `token ${token}`
+            }
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data.sha;
+        }
+    } catch (e) {
+        console.log('File does not exist yet:', path);
+    }
+    return null;
+}
+
+function autoDeployOnSave() {
+    const originalSaveState = saveState;
+    saveState = function() {
+        originalSaveState.apply(this, arguments);
+        setTimeout(() => {
+            if (isGithubConfigured()) {
+                deployToGithub();
+            }
+        }, 500);
+    };
+}
+
+autoDeployOnSave();
+
+window.deployToGithub = deployToGithub;
+window.promptGithubToken = promptGithubToken;
+window.isGithubConfigured = isGithubConfigured;
