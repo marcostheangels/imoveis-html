@@ -652,8 +652,8 @@ function loadTestimonials() {
 
     const testimonials = JSON.parse(localStorage.getItem('admin_testimonials')) || [
         { id: 1, name: 'Maria Silva', city: 'São Paulo - SP', text: 'Atendimento excepcional! Encontrei meu apartamento dos sonhos em menos de uma semana. Recomendo a todos!', rating: 5 },
-        { id: 2, name: 'João Santos', city: 'Campinas - SP', text: 'Profissionalismo nota 10! A equipe da ImobPrime me ajudou a vender meu imóvel pelo melhor preço.', rating: 5 },
-        { id: 3, name: 'Ana Costa', city: 'Santos - SP', text: 'Já é a terceira vez que compro um imóvel com a ImobPrime. São sempre muito atenciosos e corretos.', rating: 4 }
+        { id: 2, name: 'João Santos', city: 'Campinas - SP', text: 'Profissionalismo nota 10! A equipe da Neo Imóveis e Negócios me ajudou a vender meu imóvel pelo melhor preço.', rating: 5 },
+        { id: 3, name: 'Ana Costa', city: 'Santos - SP', text: 'Já é a terceira vez que compro um imóvel com a Neo Imóveis e Negócios. São sempre muito atenciosos e corretos.', rating: 4 }
     ];
 
     testimonialsGrid.innerHTML = testimonials.map(t => `
@@ -688,8 +688,8 @@ function loadSettings() {
     const whatsappFloatLink = document.querySelector('.whatsapp-float a');
     const whatsappBtn = document.querySelector('.social-btn.whatsapp');
 
-    if (companyName) companyName.textContent = settings.companyName || 'ImobPrime';
-    if (footerCompanyName) footerCompanyName.textContent = settings.companyName || 'ImobPrime';
+    if (companyName) companyName.textContent = settings.companyName || 'Neo Imóveis e Negócios';
+    if (footerCompanyName) footerCompanyName.textContent = settings.companyName || 'Neo Imóveis e Negócios';
     if (contactAddress) contactAddress.innerHTML = (settings.companyAddress || '').replace(',', '<br>');
     if (contactPhone) contactPhone.textContent = settings.companyPhone || '';
     if (contactEmail) contactEmail.textContent = settings.companyEmail || '';

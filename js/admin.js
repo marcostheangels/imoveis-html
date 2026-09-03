@@ -1,4 +1,4 @@
-// Admin JavaScript - Painel Administrativo ImobPrime
+// Admin JavaScript - Painel Administrativo Neo Imóveis e Negócios
 
 // State Management
 let adminState = {
@@ -6,7 +6,7 @@ let adminState = {
     testimonials: JSON.parse(localStorage.getItem('admin_testimonials')) || [],
     messages: JSON.parse(localStorage.getItem('admin_messages')) || [],
     settings: JSON.parse(localStorage.getItem('admin_settings')) || {
-        companyName: 'ImobPrime',
+        companyName: 'Neo Imóveis e Negócios',
         companyPhone: '(11) 9999-9999',
         companyAddress: 'Av. Paulista, 1000, São Paulo - SP',
         companyEmail: 'contato@imobprime.com',
@@ -74,14 +74,14 @@ function initializeAdmin() {
                 id: 2,
                 name: 'João Santos',
                 city: 'Campinas - SP',
-                text: 'Profissionalismo nota 10! A equipe da ImobPrime me ajudou a vender meu imóvel pelo melhor preço.',
+                text: 'Profissionalismo nota 10! A equipe da Neo Imóveis e Negócios me ajudou a vender meu imóvel pelo melhor preço.',
                 rating: 5
             },
             {
                 id: 3,
                 name: 'Ana Costa',
                 city: 'Santos - SP',
-                text: 'Já é a terceira vez que compro um imóvel com a ImobPrime. São sempre muito atenciosos e corretos.',
+                text: 'Já é a terceira vez que compro um imóvel com a Neo Imóveis e Negócios. São sempre muito atenciosos e corretos.',
                 rating: 4
             }
         ];
@@ -965,7 +965,7 @@ function clearAllData() {
         testimonials: [],
         messages: [],
         settings: {
-            companyName: 'ImobPrime',
+            companyName: 'Neo Imóveis e Negócios',
             companyPhone: '(11) 9999-9999',
             companyAddress: 'Av. Paulista, 1000, São Paulo - SP',
             companyEmail: 'contato@imobprime.com',
