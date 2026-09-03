@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFE5B4"/>
+      <stop offset="100%" stop-color="#FFB6C1"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8B4513"/>
+      <stop offset="100%" stop-color="#654321"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#sky)"/>
+  <rect x="50" y="150" width="280" height="180" fill="#F5DEB3" stroke="#8B4513" stroke-width="3" rx="5"/>
+  <rect x="350" y="180" width="200" height="120" fill="#FFF8DC" stroke="#8B4513" stroke-width="3" rx="5"/>
+  <rect x="580" y="200" width="170" height="100" fill="#FFE4B5" stroke="#8B4513" stroke-width="3" rx="5"/>
+  <rect x="0" y="500" width="800" height="100" fill="url(#floor)"/>
+  <rect x="100" y="100" width="100" height="50" fill="#FFD700" stroke="#8B4513" stroke-width="2" rx="3"/>
+  <circle cx="700" cy="100" r="40" fill="#FFD700" opacity="0.6"/>
+  <text x="400" y="570" font-family="Arial" font-size="24" fill="#FFF" text-anchor="middle" font-weight="bold">Living Room</text>
+</svg>

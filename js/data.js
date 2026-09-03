@@ -1,3 +1,31 @@
+// Imagens SVG locais que sempre funcionam
+const propertyImages = {
+    apartamento: [
+        "images/apartamentos/apt-living.svg",
+        "images/apartamentos/apt-cozinha.svg",
+        "images/apartamentos/apt-quarto.svg",
+        "images/apartamentos/apt-banheiro.svg"
+    ],
+    casa: [
+        "images/casas/casa-frente.svg",
+        "images/casas/casa-jardim.svg",
+        "images/casas/casa-piscina.svg",
+        "images/casas/casa-living.svg"
+    ],
+    comercial: [
+        "images/comercial/sala-reuniao.svg",
+        "images/comercial/sala-trabalho.svg",
+        "images/comercial/sala-recepcao.svg",
+        "images/comercial/sala-area.svg"
+    ],
+    terreno: [
+        "images/terrenos/terreno-vista.svg",
+        "images/terrenos/terreno-area.svg",
+        "images/terrenos/terreno-acesso.svg",
+        "images/terrenos/terreno-mapa.svg"
+    ]
+};
+
 const properties = [
     {
         id: 1,
@@ -13,12 +41,7 @@ const properties = [
         area: 180,
         description: "Espetacular cobertura duplex no coração dos Jardins. Amplo living com pé direito duplo, cozinha planejada gourmet, 4 suítes completas, terraço com churrasqueira e vista panorâmica da cidade. Prédio com academia, piscina, spa, salão de festas e segurança 24 horas.",
         features: ["Piscina", "Academia", "Churrasqueira", "Terraço", "Elevador", "Portaria 24h", "Vista Panorâmica", "Closet", "Suíte Master", "Lavabo"],
-        images: [
-            "https://picsum.photos/id/1018/800/600",
-            "https://picsum.photos/id/1019/800/600",
-            "https://picsum.photos/id/1025/800/600",
-            "https://picsum.photos/id/1039/800/600"
-        ],
+        images: propertyImages.apartamento,
         featured: true
     },
     {
@@ -35,12 +58,7 @@ const properties = [
         area: 450,
         description: "Magnífica casa de praia em condomínio fechado de alto padrão. 5 dormitórios sendo 4 suítes, piscina aquecida, área de lazer completa com churrasqueira e forno de pizza. A 300 metros da praia com acesso privativo. Vista mar privilegiada.",
         features: ["Piscina", "Vista Mar", "Churrasqueira", "Closet", "Suítes", "Segurança 24h", "Acesso Praia", "Jardim", "Garagem Coberta", "Home Theater"],
-        images: [
-            "https://picsum.photos/id/1015/800/600",
-            "https://picsum.photos/id/1016/800/600",
-            "https://picsum.photos/id/1020/800/600",
-            "https://picsum.photos/id/1021/800/600"
-        ],
+        images: propertyImages.casa,
         featured: true
     },
     {
@@ -57,12 +75,7 @@ const properties = [
         area: 95,
         description: "Excelente apartamento bem localizado na Vila Mariana. 3 dormitórios com armários embutidos, living espaçoso, cozinha americana planejada, 2 banheiros completos. Próximo ao metrô e comércios. Prédio com academia e salão de festas.",
         features: ["Armários Embutidos", "Varanda", "Piscina", "Academia", "Salão de Festas", "Portaria 24h", "Elevador"],
-        images: [
-            "https://picsum.photos/id/1029/800/600",
-            "https://picsum.photos/id/1031/800/600",
-            "https://picsum.photos/id/1033/800/600",
-            "https://picsum.photos/id/1035/800/600"
-        ],
+        images: propertyImages.apartamento,
         featured: false
     },
     {
@@ -79,12 +92,7 @@ const properties = [
         area: 520,
         description: "Casa contemporânea de alto padrão em Alphaville. Projeto arquitetônico moderno com linhas limpas e ambientes integrados. 4 suítes master, escritório, adega, piscina com borda infinita, paisagismo projeto paisagístico. Todos os ambientes com automação completa.",
         features: ["Piscina", "Automação", "Adega", "Escritório", "Home Theater", "Jardim", "Garagem", "Suíte Master", "Closet", "Piso Aquecido"],
-        images: [
-            "https://picsum.photos/id/1043/800/600",
-            "https://picsum.photos/id/1044/800/600",
-            "https://picsum.photos/id/1047/800/600",
-            "https://picsum.photos/id/1048/800/600"
-        ],
+        images: propertyImages.casa,
         featured: true
     },
     {
@@ -101,12 +109,7 @@ const properties = [
         area: 150,
         description: "Sala comercial no coração da Paulista com 150m². 4 ambientes adaptáveis, recepção, sala de reuniões, banheiro social. Prédio com segurança, elevadores e estacionamento para visitantes. Ideal para escritórios, consultórios ou representações.",
         features: ["Ar Condicionado", "Recepção", "Acesso 24h", "Elevador", "Segurança", "Internet Fibra"],
-        images: [
-            "https://picsum.photos/id/1050/800/600",
-            "https://picsum.photos/id/1052/800/600",
-            "https://picsum.photos/id/1054/800/600",
-            "https://picsum.photos/id/1055/800/600"
-        ],
+        images: propertyImages.comercial,
         featured: false
     },
     {
@@ -123,12 +126,7 @@ const properties = [
         area: 1200,
         description: "Terreno plano de 1.200m² em condomínio fechado de alto padrão. Terreno totalmente murado com projeto aprovado para construção de 800m². Infraestrutura completa: água, luz, esgoto. Segurança 24 horas com ronda eletrônica. Zoneamento residencial exclusivo.",
         features: ["Documentação OK", "Projeto Aprovado", "Terreno Plano", "Murado", "Rede Água", "Rede Esgoto", "Segurança 24h"],
-        images: [
-            "https://picsum.photos/id/1063/800/600",
-            "https://picsum.photos/id/1065/800/600",
-            "https://picsum.photos/id/1067/800/600",
-            "https://picsum.photos/id/1069/800/600"
-        ],
+        images: propertyImages.terreno,
         featured: false
     },
     {
@@ -145,12 +143,7 @@ const properties = [
         area: 350,
         description: "Exclusivo penthouse na Marginal Pinheiros com vista panorâmica 360°. 5 suítes master com closet e banheira, cozinha gourmet, salão de jogos, adega, espaço wellness com sauna e spa. Terraço privativo com piscina e área gourmet.",
         features: ["Vista Panorâmica", "Piscina Privativa", "Sauna", "Spa", "Home Theater", "Adega", "Closet Master", "Terraço", "Elevador Privativo", "Automação"],
-        images: [
-            "https://picsum.photos/id/1071/800/600",
-            "https://picsum.photos/id/1073/800/600",
-            "https://picsum.photos/id/1074/800/600",
-            "https://picsum.photos/id/1076/800/600"
-        ],
+        images: propertyImages.apartamento,
         featured: true
     },
     {
@@ -167,12 +160,7 @@ const properties = [
         area: 380,
         description: "Charme e aconchego em casa de campo a 60km de São Paulo. 4 dormitórios, sendo 2 suítes, lareira no living, cozinha espaçosa com fogão a lenha, área de churrasqueira coberta, piscina aquecida e campo de futebol. 5.000m² de terreno com pomar.",
         features: ["Lareira", "Piscina", "Churrasqueira", "Campo", "Pomar", "Fogão a Lenha", "Jardim", "Lago"],
-        images: [
-            "https://picsum.photos/id/1078/800/600",
-            "https://picsum.photos/id/1079/800/600",
-            "https://picsum.photos/id/1080/800/600",
-            "https://picsum.photos/id/1081/800/600"
-        ],
+        images: propertyImages.casa,
         featured: false
     },
     {
@@ -189,12 +177,7 @@ const properties = [
         area: 85,
         description: "Loft estilo industrial no coração da Vila Madalena. Pé direito alto, tijolinho aparente, projetos sob medida. 2 ambientes amplos integrados com cozinha gourmet, 2 dormitórios e banheiro completo. Próximo a bares, restaurantes e estação de metrô.",
         features: ["Estilo Industrial", "Pé Direito Alto", "Tijolinho", "Móveis Planejados", "Ar Condicionado", "Varanda"],
-        images: [
-            "https://picsum.photos/id/1082/800/600",
-            "https://picsum.photos/id/1083/800/600",
-            "https://picsum.photos/id/1084/800/600",
-            "https://picsum.photos/id/1090/800/600"
-        ],
+        images: propertyImages.apartamento,
         featured: false
     },
     {
@@ -211,12 +194,7 @@ const properties = [
         area: 180,
         description: "Sobrado em bairro fechado com excelente localização no Campo Belo. 3 dormitórios sendo 1 suíte master, living com lareira, cozinha planejada, área de serviço completa. Condomínio com playground, academia e segurança.",
         features: ["Lareira", "Piscina Condomínio", "Playground", "Academia", "Portaria 24h", "Quintal"],
-        images: [
-            "https://picsum.photos/id/1091/800/600",
-            "https://picsum.photos/id/1092/800/600",
-            "https://picsum.photos/id/1093/800/600",
-            "https://picsum.photos/id/1094/800/600"
-        ],
+        images: propertyImages.casa,
         featured: false
     },
     {
@@ -233,12 +211,7 @@ const properties = [
         area: 75,
         description: "Charmoso apartamento garden com 75m² em Moema. Living integrado à cozinha americana, 2 dormitórios com armários, banheiro social, área externa privativa com jardim de 30m². Próximo ao parque Ibirapuera e estação de metrô.",
         features: ["Garden", "Área Externa", "Armários", "Ar Condicionado", "Próximo Metro", "Parque"],
-        images: [
-            "https://picsum.photos/id/1095/800/600",
-            "https://picsum.photos/id/1096/800/600",
-            "https://picsum.photos/id/1097/800/600",
-            "https://picsum.photos/id/1098/800/600"
-        ],
+        images: propertyImages.apartamento,
         featured: false
     },
     {
@@ -255,12 +228,7 @@ const properties = [
         area: 2500,
         description: "Linda chácara especializada em eventos e confraternizações. Capacidade para 200 pessoas, salão de festas climatizado, cozinha industrial completa, 6 suítes para hospedagem, piscina adulto e infantil, campo de futebol, quadras de tênis e vôlei.",
         features: ["Salão de Festas", "Cozinha Industrial", "Piscina", "Campos", "Quadras", "Hospedagem", "Estacionamento", "Área Verde"],
-        images: [
-            "https://picsum.photos/id/1100/800/600",
-            "https://picsum.photos/id/1101/800/600",
-            "https://picsum.photos/id/1102/800/600",
-            "https://picsum.photos/id/1103/800/600"
-        ],
+        images: propertyImages.casa,
         featured: true
     },
     {
@@ -277,12 +245,7 @@ const properties = [
         area: 35,
         description: "Studio moderno e aconchegante no coração de São Paulo. Ideal para solteiros ou casais. Completamente mobiliado com sofá-cama, mesa de trabalho, kitchenette equipada, TV smart e Wi-Fi. Prédio com lavanderia coletiva e segurança 24 horas.",
         features: ["Mobiliado", "Wi-Fi", "TV Smart", "Kitchenette", "Lavanderia", "Segurança 24h", "Ar Condicionado", "Próximo Metro"],
-        images: [
-            "https://picsum.photos/id/1104/800/600",
-            "https://picsum.photos/id/1105/800/600",
-            "https://picsum.photos/id/1106/800/600",
-            "https://picsum.photos/id/1107/800/600"
-        ],
+        images: propertyImages.apartamento,
         featured: false
     },
     {
@@ -299,12 +262,7 @@ const properties = [
         area: 65,
         description: "Apartamento mobiliado de 65m² em Pinheiros, um dos bairros mais desejados de São Paulo. 2 quartos com armários, sala espaçosa, cozinha americana completa. Ótima iluminação natural e ventilação. Próximo a bares, restaurantes e comércio variado.",
         features: ["Mobiliado", "Armários", "Varanda", "Próximo Comercio", "Ar Condicionado", "Elevador", "Garagem"],
-        images: [
-            "https://picsum.photos/id/1108/800/600",
-            "https://picsum.photos/id/1109/800/600",
-            "https://picsum.photos/id/1110/800/600",
-            "https://picsum.photos/id/1111/800/600"
-        ],
+        images: propertyImages.apartamento,
         featured: false
     },
     {
@@ -321,12 +279,7 @@ const properties = [
         area: 220,
         description: "Espetacular cobertura na Avenida Paulista com vista panorâmica para o skyline de São Paulo. 3 suítes master, living com pé direito duplo de 6 metros, cozinha gourmet com ilha, terraço privativo com churrasqueira e jacuzzi. Acabamentos de alto padrão em mármore e madeira.",
         features: ["Vista Panorâmica", "Jacuzzi", "Churrasqueira", "Terraço", "Pé Direito Alto", "Suíte Master", "Elevador Privativo", "Automação"],
-        images: [
-            "https://picsum.photos/id/1112/800/600",
-            "https://picsum.photos/id/1113/800/600",
-            "https://picsum.photos/id/1114/800/600",
-            "https://picsum.photos/id/1115/800/600"
-        ],
+        images: propertyImages.apartamento,
         featured: true
     },
     {
@@ -343,12 +296,7 @@ const properties = [
         area: 72,
         description: "Charmoso apartamento tipo garden com quintal privativo de 25m² em localização privilegiada no Itaim Bibi. 2 dormitórios com armários planejados, living integrado à cozinha americana, banheiro social reformado. Quintal perfeito para plantas e pets. Condomínio tranquilo com área verde.",
         features: ["Quintal Privativo", "Área Verde", "Pets Permitidos", "Armários", "Mobiliado", "Próximo Parque", "Transporte Público"],
-        images: [
-            "https://picsum.photos/id/1116/800/600",
-            "https://picsum.photos/id/1117/800/600",
-            "https://picsum.photos/id/1118/800/600",
-            "https://picsum.photos/id/1119/800/600"
-        ],
+        images: propertyImages.apartamento,
         featured: false
     },
     {
@@ -365,12 +313,7 @@ const properties = [
         area: 95,
         description: "Incrível loft duplex estilo neoyorkino na Vila Madalena. Pé direito de 5 metros no living, mezanino com quarto master, segundo dormitório no térreo, 2 banheiros completos. Acabamento em tijolinho aparente, cimento queimado e madeira de lei. Arte urbana nas paredes.",
         features: ["Duplex", "Pé Direito Alto", "Mezanino", "Estilo Industrial", "Tijolinho", "Arte Urbana", "Próximo Bares", "Ar Condicionado"],
-        images: [
-            "https://picsum.photos/id/1120/800/600",
-            "https://picsum.photos/id/1121/800/600",
-            "https://picsum.photos/id/1122/800/600",
-            "https://picsum.photos/id/1123/800/600"
-        ],
+        images: propertyImages.apartamento,
         featured: false
     },
     {
@@ -387,12 +330,7 @@ const properties = [
         area: 110,
         description: "Apartamento de 110m² em prédio novo no Brooklin Novo. 3 dormitórios sendo 1 suíte master com closet, living com varanda gourmet, cozinha americana completa com bancada em granito. Infraestrutura para ar condicionado splits em todos os cômodos. Vaga de garagem para 2 carros.",
         features: ["Prédio Novo", "Varanda Gourmet", "Suíte Master", "Closet", "Granito", "Ar Condicionado", "2 Vagas", "Elevador"],
-        images: [
-            "https://picsum.photos/id/1124/800/600",
-            "https://picsum.photos/id/1125/800/600",
-            "https://picsum.photos/id/1126/800/600",
-            "https://picsum.photos/id/1127/800/600"
-        ],
+        images: propertyImages.apartamento,
         featured: false
     },
     {
@@ -409,12 +347,7 @@ const properties = [
         area: 165,
         description: "Magnífica cobertura de 165m² com vista mar 180° na orla de Santos. 4 dormitórios, sendo 2 suítes, living espaçoso com varanda, cozinha gourmet, terraço com churrasqueira e spa. Último pavimento - sem vizinhos em cima. Condomínio com piscina, academia e beach club.",
         features: ["Vista Mar", "180°", "Terraço", "Churrasqueira", "Spa", "Beach Club", "Piscina", "Academia"],
-        images: [
-            "https://picsum.photos/id/1128/800/600",
-            "https://picsum.photos/id/1129/800/600",
-            "https://picsum.photos/id/1130/800/600",
-            "https://picsum.photos/id/1131/800/600"
-        ],
+        images: propertyImages.apartamento,
         featured: true
     },
     {
@@ -431,12 +364,7 @@ const properties = [
         area: 28,
         description: "Kitnet compacta e bem planejada no Cambuci, região central de São Paulo. Ideal para estudantes ou jovens profissionais. Mobiliada com cama box, estante, guarda-roupa, geladeira, fogão e TV. Internet fibra instalada. Fácil acesso ao metrô Anhangabaú.",
         features: ["Mobiliada", "Internet Fibra", "Geladeira", "TV", "Próximo Metro", "Centro", "Seguro", "Lavanderia"],
-        images: [
-            "https://picsum.photos/id/1132/800/600",
-            "https://picsum.photos/id/1133/800/600",
-            "https://picsum.photos/id/1134/800/600",
-            "https://picsum.photos/id/1135/800/600"
-        ],
+        images: propertyImages.apartamento,
         featured: false
     },
     {
@@ -453,12 +381,7 @@ const properties = [
         area: 280,
         description: "Exclusivo penthouse de 280m² no coração do Itaim Bibi. 4 suítes master, todas com closet e banheiro com hidromassagem, living de 60m² com pé direito de 7 metros, cozinha gourmet com ilha, adega para 300 garrafas, terraço privativo com piscina aquecida e jardim vertical.",
         features: ["Piscina Privativa", "Aquecida", "Hidro", "Adega", "Home Theater", "Automação", "Closet Master", "Jardim Vertical"],
-        images: [
-            "https://picsum.photos/id/1136/800/600",
-            "https://picsum.photos/id/1137/800/600",
-            "https://picsum.photos/id/1138/800/600",
-            "https://picsum.photos/id/1139/800/600"
-        ],
+        images: propertyImages.apartamento,
         featured: true
     },
     {
@@ -475,12 +398,7 @@ const properties = [
         area: 38,
         description: "Apartamento de 1 quarto bem localizado na Vila Prudente, próximo ao Parque das Lauráceas e com fácil acesso ao metrô. Apartamento novo, nunca habitado, com piso laminado, azulejos até o teto no banheiro, cozinha americana com nicho para máquina de lavar.",
         features: ["Novo", "Piso Laminado", "Máquina Lavar", "Próximo Metro", "Parque", "Transporte", "Iluminação LED", "Portaria"],
-        images: [
-            "https://picsum.photos/id/1140/800/600",
-            "https://picsum.photos/id/1141/800/600",
-            "https://picsum.photos/id/1142/800/600",
-            "https://picsum.photos/id/1143/800/600"
-        ],
+        images: propertyImages.apartamento,
         featured: false
     },
     {
@@ -497,12 +415,7 @@ const properties = [
         area: 240,
         description: "Cobertura duplex de 240m² em localização privilegiada na Rua da Consolação. Primeiro pavimento: living de 50m², sala de jantar, cozinha gourmet, lavabo, lavanderia completa. Segundo pavimento: 4 suítes master, terraço com churrasqueira e vista para a cidade. Acabamentos em mármore Travertino.",
         features: ["Duplex", "Terraço", "Churrasqueira", "Marmore Travertino", "Lavanderia", "Suítes Master", "Vista Cidade", "Portaria Blindada"],
-        images: [
-            "https://picsum.photos/id/1144/800/600",
-            "https://picsum.photos/id/1145/800/600",
-            "https://picsum.photos/id/1146/800/600",
-            "https://picsum.photos/id/1147/800/600"
-        ],
+        images: propertyImages.apartamento,
         featured: true
     },
     {
@@ -519,12 +432,7 @@ const properties = [
         area: 30,
         description: "Kitnet compacta ideal para estudantes ou pessoas sozinhas. Bem iluminada, com janela grande, ventilador de teto, geladeira e fogão. Próximo ao metrô Penha e ao Shopping Center Penha. Região com comércio local abundante, supermercados e farmácias 24 horas.",
         features: ["Econômico", "Próximo Metro", "Ventilador", "Geladeira", "Fogão", "Comércio Local", "Farmácia 24h", "Transporte"],
-        images: [
-            "https://picsum.photos/id/1148/800/600",
-            "https://picsum.photos/id/1149/800/600",
-            "https://picsum.photos/id/1150/800/600",
-            "https://picsum.photos/id/1151/800/600"
-        ],
+        images: propertyImages.apartamento,
         featured: false
     }
 ];

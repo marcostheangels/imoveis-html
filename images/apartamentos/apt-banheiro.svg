@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" fill="#F0F8FF"/>
+  <rect x="100" y="100" width="600" height="500" fill="#FFF" stroke="#4682B4" stroke-width="3"/>
+  <rect x="200" y="200" width="150" height="200" fill="#E0FFFF" stroke="#4682B4" stroke-width="2" rx="3"/>
+  <rect x="400" y="200" width="200" height="100" fill="#FFF" stroke="#4682B4" stroke-width="2" rx="3"/>
+  <ellipse cx="500" cy="250" rx="80" ry="20" fill="#B0E0E6" stroke="#4682B4" stroke-width="2"/>
+  <ellipse cx="500" cy="280" rx="80" ry="15" fill="#87CEEB"/>
+  <rect x="400" y="400" width="100" height="100" fill="#FFF" stroke="#4682B4" stroke-width="2"/>
+  <rect x="550" y="400" width="50" height="80" fill="#FFF" stroke="#4682B4" stroke-width="2"/>
+  <text x="400" y="560" font-family="Arial" font-size="24" fill="#4682B4" text-anchor="middle" font-weight="bold">Banheiro Luxo</text>
+</svg>

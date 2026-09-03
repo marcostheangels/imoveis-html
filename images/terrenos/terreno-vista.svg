@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#228B22" stroke-width="1" opacity="0.3"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="#90EE90"/>
+  <rect x="100" y="150" width="600" height="350" fill="url(#grid)" stroke="#228B22" stroke-width="4" stroke-dasharray="10,5"/>
+  <line x1="400" y1="150" x2="400" y2="500" stroke="#228B22" stroke-width="2" stroke-dasharray="5,5"/>
+  <line x1="100" y1="325" x2="700" y2="325" stroke="#228B22" stroke-width="2" stroke-dasharray="5,5"/>
+  <circle cx="200" cy="250" r="30" fill="#FF6347"/>
+  <circle cx="600" cy="250" r="30" fill="#FF6347"/>
+  <rect x="350" y="280" width="100" height="80" fill="#8B4513" opacity="0.5"/>
+  <text x="400" y="560" font-family="Arial" font-size="24" fill="#228B22" text-anchor="middle" font-weight="bold">Vista do Terreno</text>
+</svg>

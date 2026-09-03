@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" fill="#FFFAF0"/>
+  <rect x="50" y="200" width="700" height="200" fill="#90EE90" stroke="#228B22" stroke-width="3"/>
+  <rect x="100" y="300" width="50" height="100" fill="#8B4513"/>
+  <rect x="120" y="320" width="10" height="20" fill="#FFD700"/>
+  <rect x="650" y="300" width="50" height="100" fill="#8B4513"/>
+  <rect x="670" y="320" width="10" height="20" fill="#FFD700"/>
+  <path d="M 50,400 L 50,200 L 60,210 L 60,390 Z" fill="#808080" stroke="#696969" stroke-width="2"/>
+  <path d="M 750,400 L 750,200 L 740,210 L 740,390 Z" fill="#808080" stroke="#696969" stroke-width="2"/>
+  <line x1="0" y1="400" x2="800" y2="400" stroke="#000" stroke-width="3" stroke-dasharray="10,5"/>
+  <text x="400" y="180" font-family="Arial" font-size="22" fill="#228B22" text-anchor="middle" font-weight="bold">Portal de Entrada</text>
+  <text x="400" y="560" font-family="Arial" font-size="24" fill="#228B22" text-anchor="middle" font-weight="bold">Acesso ao Condomínio</text>
+</svg>

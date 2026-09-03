@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" fill="#87CEEB"/>
+  <rect x="0" y="400" width="800" height="200" fill="#90EE90"/>
+  <polygon points="0,400 800,400 800,300 600,250 400,300 200,250 0,300" fill="#8B4513" opacity="0.6"/>
+  <rect x="100" y="350" width="600" height="50" fill="#8B4513" stroke="#654321" stroke-width="3"/>
+  <rect x="200" y="250" width="50" height="100" fill="#808080" stroke="#696969" stroke-width="2"/>
+  <rect x="500" y="250" width="50" height="100" fill="#808080" stroke="#696969" stroke-width="2"/>
+  <circle cx="650" cy="100" r="50" fill="#FFD700" opacity="0.8"/>
+  <text x="400" y="570" font-family="Arial" font-size="24" fill="#228B22" text-anchor="middle" font-weight="bold">Terreno Plano</text>
+</svg>
