@@ -994,9 +994,6 @@ function saveState() {
     localStorage.setItem('admin_messages', JSON.stringify(adminState.messages));
     localStorage.setItem('admin_settings', JSON.stringify(adminState.settings));
     localStorage.setItem('uploaded_images', JSON.stringify(adminState.uploadedImages));
-
-    // Also update the main properties array for the site
-    properties = adminState.properties;
 }
 
 function showToast(message, type = 'success') {
