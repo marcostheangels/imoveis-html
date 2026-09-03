@@ -1,8 +1,8 @@
-# ImobPrime - Site Imobiliário
+# Neo Imóveis e Negócios - Site Imobiliário
 
 ## 📌 Resumo do Projeto
 
-Site imobiliário profissional com painel administrativo completo, desenvolvido para a conta GitHub `marcostheangels`.
+Site imobiliário profissional com painel administrativo completo e deploy automático no GitHub, desenvolvido para a conta GitHub `marcostheangels`.
 
 **Repositório:** https://github.com/marcostheangels/imoveis-html
 
@@ -21,17 +21,20 @@ Site imobiliário profissional com painel administrativo completo, desenvolvido 
 
 ```
 site imobiliario/
-├── index.html          # Site principal
-├── admin.html         # Painel administrativo
+├── index.html              # Site principal
+├── admin.html             # Painel administrativo
+├── PROJETO_IMOBILIARIO.md # Documentação do projeto
+├── .env.example           # Modelo de configurações (não comitar!)
+├── .gitignore            # Arquivos ignorados pelo Git
 ├── css/
-│   ├── styles.css     # Estilos do site principal
-│   ├── themes.css     # Temas (Moderno, Clássico, Luxo)
-│   └── admin.css      # Estilos do painel admin
+│   ├── styles.css        # Estilos do site principal
+│   ├── themes.css        # Temas (Moderno, Clássico, Luxo)
+│   └── admin.css         # Estilos do painel admin
 ├── js/
-│   ├── data.js        # Dados dos imóveis
-│   ├── main.js        # Lógica do site principal
-│   └── admin.js       # Lógica do painel admin
-└── images/            # Imagens SVG dos ícones
+│   ├── data.js           # Dados dos imóveis padrão
+│   ├── main.js           # Lógica do site principal
+│   └── admin.js          # Lógica do painel admin
+└── images/               # Imagens SVG dos ícones
 ```
 
 ---
@@ -51,6 +54,7 @@ site imobiliario/
 - ✅ Botão voltar ao topo
 - ✅ Menu responsivo para mobile
 - ✅ 3 temas visuais (Moderno, Clássico, Luxo)
+- ✅ Contador de visualizações real (localStorage)
 
 ---
 
@@ -64,29 +68,64 @@ site imobiliario/
 
 | Seção | O que faz |
 |-------|-----------|
-| **Dashboard** | Visão geral com estatísticas e gráficos |
-| **Imóveis** | Listar, editar, excluir, visualizar |
-| **Adicionar Imóvel** | Cadastrar novo imóvel com todos os dados |
-| **Upload de Fotos** | Sistema de upload com drag & drop |
+| **Dashboard** | Visão geral com estatísticas, gráficos e contador de visualizações |
+| **Imóveis** | Listar, editar, excluir, visualizar (modal interno) |
+| **Adicionar Imóvel** | Cadastrar novo imóvel com upload simplificado de fotos |
+| **Upload de Fotos** | Sistema de upload com galeria para gerenciar imagens |
 | **Depoimentos** | Gerenciar avaliações dos clientes |
 | **Mensagens** | Ver mensagens do formulário de contato |
-| **Configurações** | Dados da empresa, redes sociais, cores |
+| **Configurações** | Dados da empresa, redes sociais, cores, deploy GitHub |
 
-### Como adicionar/edtar imóvel
+### Como adicionar/editar imóvel
 1. Menu → **Adicionar Imóvel**
 2. Preencher: título, tipo, finalidade, preço, quartos, banheiros, garagens, área
 3. Localização e endereço
 4. Descrição detalhada
 5. Características (checkboxes)
-6. Imagens (URLs ou upload)
+6. **Adicionar Fotos** - Clique no botão para selecionar do computador (novo sistema simplificado!)
 7. Marcar como destaque (opcional)
 8. Salvar
 
-### Backup dos dados
-- **Exportar Dados**: Baixa JSON com tudo
-- **Importar Dados**: Restaura de um backup
+### Sistema de Imagens (NOVO!)
+- Clique em "Adicionar Fotos" para selecionar do seu computador
+- Visualização em grid com preview
+- Remover fotos passando o mouse e clicando no X
+- Limite: 5MB por imagem
+- Imagens são convertidas para Base64 e salvas no localStorage
 
-⚠️ **Importante**: Dados salvos no navegador (localStorage). Limpar cache apaga!
+### Upload de Fotos
+- Upload via drag & drop ou clique
+- Galeria para gerenciar imagens salvas
+- Botão "Copiar URL" para usar em outros imóveis
+
+### Dashboard - Estatísticas
+- **Total de Imóveis**: Contagem dos imóveis cadastrados
+- **Visualizações**: Contador real de acessos ao site (localStorage)
+- **Favoritos**: Quantidade de imóveis favoritados
+- **Mensagens**: Quantidade de mensagens recebidas
+
+---
+
+## 🚀 Deploy Automático no GitHub
+
+### Configurar Token GitHub
+1. Abra o admin → **Configurações**
+2. Clique em **"Configurar Token GitHub"**
+3. Cole seu Personal Access Token (PAT)
+4. O token fica salvo no navegador (localStorage)
+
+### Como criar o Token
+1. GitHub → Settings → Developer settings
+2. Personal access tokens → Generate new token
+3. Selecione escopo **`repo`**
+4. Copie e cole no admin
+
+### Funcionamento
+- Após configurar o token, toda vez que você salvar algo no admin, **publica automaticamente no GitHub**
+- Alternativamente, use o botão **"Publicar Agora"** para forçar o deploy
+- Status mostra se o auto-deploy está ativo
+
+⚠️ **Importante**: O token fica no localStorage do seu navegador, não no código.
 
 ---
 
@@ -109,36 +148,55 @@ site imobiliario/
 - Google Fonts (Montserrat, Playfair Display, Lora)
 - LocalStorage (persistência de dados)
 - GitHub Pages (hospedagem)
+- GitHub API (deploy automático)
 
 ---
 
 ## 📝 Observações Técnicas
 
 ### Sincronização
-- Admin salva dados no `localStorage` com chave `admin_properties`, `admin_testimonials`, etc.
+- Admin salva dados no `localStorage` com chaves:
+  - `admin_properties` - Imóveis
+  - `admin_testimonials` - Depoimentos
+  - `admin_messages` - Mensagens
+  - `admin_settings` - Configurações
+  - `uploaded_images` - Imagens upload
+  - `site_views` - Contador de visualizações
+  - `gh_token_encrypted` - Token GitHub (criptografado)
 - Site principal lê esses dados via `localStorage`
 - Verificação automática a cada 2 segundos por mudanças
 
 ### Imagens
 - Usa URLs do Unsplash como padrão
 - Admin permite upload de imagens próprias (converte para Base64)
+- Novo sistema simplificado de upload no formulário de imóveis
 - Limite: 5MB por imagem
 
 ### Depoimentos
 - Carregados do `localStorage` no admin
 - Exibidos na seção "O que nossos clientes dizem" do site
 
+### Deploy Automático
+- Usa GitHub API REST para fazer commit dos arquivos
+- Commits automáticos com mensagem timestampada
+- Requer Personal Access Token com escopo `repo`
+
 ---
 
 ## 🔄 Para Atualizar o Código
 
-1. Edite os arquivos localmente
-2. Commit e push:
+### Via Git (localmente)
 ```bash
 git add -A
 git commit -m "descrição da mudança"
 git push origin master
 ```
+
+### Via Admin (auto-deploy)
+1. Configure o token GitHub nas Configurações
+2. Edite o que quiser no admin
+3. Clique Salvar
+4. O site é publicado automaticamente
 
 ---
 
@@ -148,4 +206,4 @@ Desenvolvido com assistance via OpenCode.
 
 ---
 
-*Última atualização: 2026*
+*Última atualização: 03/09/2026*
