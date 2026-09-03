@@ -1,10 +1,15 @@
 // Global variables
-let filteredProperties = [...properties];
+let filteredProperties = JSON.parse(localStorage.getItem('admin_properties')) || [...properties];
 let currentModalProperty = null;
 let currentImageIndex = 0;
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 let compareList = JSON.parse(localStorage.getItem('compareList')) || [];
 const maxCompareItems = 3;
+
+// Sync properties with localStorage for admin panel
+if (!localStorage.getItem('admin_properties')) {
+    localStorage.setItem('admin_properties', JSON.stringify([...properties]));
+}
 
 // DOM Elements
 const propertyGrid = document.getElementById('propertyGrid');
@@ -169,7 +174,9 @@ function filterProperties() {
     const rooms = filterRooms?.value || 'all';
     const sort = filterSort?.value || 'featured';
 
-    filteredProperties = properties.filter(property => {
+    const currentProperties = JSON.parse(localStorage.getItem('admin_properties')) || [...properties];
+
+    filteredProperties = currentProperties.filter(property => {
         const matchesSearch = property.title.toLowerCase().includes(searchTerm) ||
                             property.location.toLowerCase().includes(searchTerm) ||
                             property.address?.toLowerCase().includes(searchTerm) ||
@@ -227,7 +234,7 @@ if (resetFilters) {
         if (filterPrice) filterPrice.value = 'all';
         if (filterRooms) filterRooms.value = 'all';
         if (filterSort) filterSort.value = 'featured';
-        filteredProperties = [...properties];
+        filteredProperties = JSON.parse(localStorage.getItem('admin_properties')) || [...properties];
         displayProperties();
     });
 }
@@ -236,7 +243,8 @@ if (resetFilters) {
 function toggleFavorite(propertyId, event) {
     if (event) event.stopPropagation();
 
-    const property = properties.find(p => p.id === propertyId);
+    const currentProperties = JSON.parse(localStorage.getItem('admin_properties')) || [...properties];
+    const property = currentProperties.find(p => p.id === propertyId);
     const index = favorites.findIndex(fav => fav.id === propertyId);
 
     if (index === -1) {
@@ -300,7 +308,8 @@ document.addEventListener('click', () => {
 function toggleCompare(propertyId, event) {
     if (event) event.stopPropagation();
 
-    const property = properties.find(p => p.id === propertyId);
+    const currentProperties = JSON.parse(localStorage.getItem('admin_properties')) || [...properties];
+    const property = currentProperties.find(p => p.id === propertyId);
     const index = compareList.findIndex(item => item.id === propertyId);
 
     if (index === -1 && compareList.length < maxCompareItems) {
@@ -339,7 +348,8 @@ if (compareBtn) {
 
 // Modal functionality
 function openPropertyModal(propertyId) {
-    const property = properties.find(p => p.id === propertyId);
+    const currentProperties = JSON.parse(localStorage.getItem('admin_properties')) || [...properties];
+    const property = currentProperties.find(p => p.id === propertyId);
     if (!property) return;
 
     currentModalProperty = property;
@@ -613,12 +623,52 @@ function calculateFinancing() {
 
 // Initialize
 initializeTheme();
-filteredProperties = [...properties];
+filteredProperties = JSON.parse(localStorage.getItem('admin_properties')) || [...properties];
 updateFavoritesUI();
 updateCompareUI();
 displayProperties();
+loadTestimonials();
 
 // Run simulator with default values on load
 if (document.getElementById('simValue')) {
     setTimeout(calculateFinancing, 500);
+}
+
+// Check for property changes from admin panel periodically
+setInterval(() => {
+    const newProperties = JSON.parse(localStorage.getItem('admin_properties')) || [...properties];
+    if (JSON.stringify(newProperties) !== JSON.stringify(filteredProperties)) {
+        filteredProperties = newProperties;
+        displayProperties();
+    }
+}, 2000);
+
+// Load testimonials from admin panel
+function loadTestimonials() {
+    const testimonialsGrid = document.getElementById('testimonialsGrid');
+    if (!testimonialsGrid) return;
+
+    const testimonials = JSON.parse(localStorage.getItem('admin_testimonials')) || [
+        { id: 1, name: 'Maria Silva', city: 'São Paulo - SP', text: 'Atendimento excepcional! Encontrei meu apartamento dos sonhos em menos de uma semana. Recomendo a todos!', rating: 5 },
+        { id: 2, name: 'João Santos', city: 'Campinas - SP', text: 'Profissionalismo nota 10! A equipe da ImobPrime me ajudou a vender meu imóvel pelo melhor preço.', rating: 5 },
+        { id: 3, name: 'Ana Costa', city: 'Santos - SP', text: 'Já é a terceira vez que compro um imóvel com a ImobPrime. São sempre muito atenciosos e corretos.', rating: 4 }
+    ];
+
+    testimonialsGrid.innerHTML = testimonials.map(t => `
+        <div class="testimonial-card">
+            <div class="testimonial-stars">
+                ${'<i class="fas fa-star"></i>'.repeat(t.rating)}${'<i class="far fa-star"></i>'.repeat(5 - t.rating)}
+            </div>
+            <p class="testimonial-text">"${t.text}"</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="author-info">
+                    <strong>${t.name}</strong>
+                    <span>${t.city}</span>
+                </div>
+            </div>
+        </div>
+    `).join('');
 }
