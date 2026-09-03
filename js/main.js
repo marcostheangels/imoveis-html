@@ -630,6 +630,10 @@ displayProperties();
 loadTestimonials();
 loadSettings();
 
+// Count site view (real counter)
+const siteViews = parseInt(localStorage.getItem('site_views') || '0');
+localStorage.setItem('site_views', (siteViews + 1).toString());
+
 // Run simulator with default values on load
 if (document.getElementById('simValue')) {
     setTimeout(calculateFinancing, 500);

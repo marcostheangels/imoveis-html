@@ -201,7 +201,9 @@ window.navigateToSection = navigateToSection;
 // ============ DASHBOARD ============
 function updateDashboard() {
     document.getElementById('totalProperties').textContent = adminState.properties.length;
-    document.getElementById('totalViews').textContent = (Math.floor(Math.random() * 5000) + 1000);
+    // Real views from localStorage
+    const siteViews = parseInt(localStorage.getItem('site_views') || '0');
+    document.getElementById('totalViews').textContent = siteViews.toLocaleString('pt-BR');
     document.getElementById('totalFavorites').textContent = JSON.parse(localStorage.getItem('favorites') || '[]').length;
     document.getElementById('totalMessages').textContent = adminState.messages.length;
 
