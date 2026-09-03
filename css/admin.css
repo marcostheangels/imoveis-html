@@ -1110,6 +1110,10 @@ input:checked + .slider:before {
     background: var(--danger);
 }
 
+.toast.info {
+    background: var(--secondary);
+}
+
 /* ============ RESPONSIVE ============ */
 @media (max-width: 1024px) {
     .dashboard-grid {

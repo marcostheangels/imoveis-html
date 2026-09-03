@@ -913,7 +913,12 @@ function saveState() {
 
 function showToast(message, type = 'success') {
     toastMessage.textContent = message;
-    toast.className = 'toast' + (type === 'error' ? ' error' : '');
+    toast.className = 'toast';
+    if (type === 'error') {
+        toast.classList.add('error');
+    } else if (type === 'info') {
+        toast.classList.add('info');
+    }
     toast.classList.add('show');
     setTimeout(() => {
         toast.classList.remove('show');
@@ -1081,7 +1086,12 @@ function autoDeployOnSave() {
         originalSaveState.apply(this, arguments);
         setTimeout(() => {
             if (isGithubConfigured()) {
-                deployToGithub();
+                try {
+                    deployToGithub();
+                } catch (e) {
+                    console.error('Deploy error:', e);
+                    showToast('Erro no deploy automático', 'error');
+                }
             }
         }, 500);
     };
