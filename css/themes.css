@@ -1,0 +1,168 @@
+/* ===========================================
+   THEMES - Arquivo separado para temas
+   Altere aqui para modificar cores e estilos dos temas
+   =========================================== */
+
+/* ================================
+   TEMA MODERNO (Default)
+   ================================ */
+:root,
+[data-theme="modern"] {
+    --primary: #2c3e50;
+    --primary-light: #34495e;
+    --primary-dark: #1a252f;
+    --secondary: #3498db;
+    --secondary-light: #5dade2;
+    --accent: #e74c3c;
+    --success: #27ae60;
+    --warning: #f39c12;
+    --text: #333;
+    --text-light: #666;
+    --text-white: #fff;
+    --bg: #f8f9fa;
+    --bg-card: #fff;
+    --bg-header: #2c3e50;
+    --shadow: 0 2px 10px rgba(0,0,0,0.1);
+    --shadow-hover: 0 10px 30px rgba(0,0,0,0.15);
+    --radius: 8px;
+    --radius-lg: 15px;
+    --font-main: 'Segoe UI', system-ui, sans-serif;
+    --font-heading: 'Georgia', serif;
+    --border: 1px solid #e0e0e0;
+    --transition: all 0.3s ease;
+}
+
+/* ================================
+   TEMA CLÁSSICO
+   Estilo tradicional com cores terrosas
+   ================================ */
+[data-theme="classic"] {
+    --primary: #8b4513;
+    --primary-light: #a0522d;
+    --primary-dark: #5c2e0a;
+    --secondary: #daa520;
+    --secondary-light: #f4d03f;
+    --accent: #228b22;
+    --success: #228b22;
+    --warning: #cd853f;
+    --text: #3d3d3d;
+    --text-light: #666;
+    --text-white: #fff;
+    --bg: #faf8f5;
+    --bg-card: #fffef9;
+    --bg-header: linear-gradient(135deg, #5c2e0a 0%, #8b4513 50%, #a0522d 100%);
+    --shadow: 0 4px 15px rgba(139, 69, 19, 0.15);
+    --shadow-hover: 0 8px 25px rgba(139, 69, 19, 0.2);
+    --radius: 4px;
+    --radius-lg: 8px;
+    --font-main: 'Lora', serif;
+    --font-heading: 'Playfair Display', Georgia, serif;
+    --border: 1px solid #d4c4b0;
+}
+
+/* Header clássico */
+[data-theme="classic"] .header {
+    background: linear-gradient(135deg, #5c2e0a 0%, #8b4513 50%, #a0522d 100%);
+}
+
+/* Hero clássico */
+[data-theme="classic"] .hero {
+    background: linear-gradient(135deg, #5c2e0a 0%, #3d1f07 100%);
+}
+
+/* Footer clássico */
+[data-theme="classic"] .footer {
+    background: linear-gradient(135deg, #3d1f07 0%, #5c2e0a 100%);
+}
+
+/* ================================
+   TEMA LUXO
+   Design elegante e sofisticado
+   ================================ */
+[data-theme="luxury"] {
+    --primary: #1a1a2e;
+    --primary-light: #16213e;
+    --primary-dark: #0f0f1a;
+    --secondary: #c9a227;
+    --secondary-light: #d4af37;
+    --accent: #e94560;
+    --success: #00d9ff;
+    --warning: #eab308;
+    --text: #e0e0e0;
+    --text-light: #a0a0a0;
+    --text-white: #f0f0f0;
+    --bg: #0a0a0f;
+    --bg-card: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+    --bg-header: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+    --shadow: 0 10px 40px rgba(201, 162, 39, 0.1);
+    --shadow-hover: 0 20px 60px rgba(201, 162, 39, 0.2);
+    --radius: 8px;
+    --radius-lg: 15px;
+    --font-main: 'Montserrat', sans-serif;
+    --font-heading: 'Playfair Display', serif;
+    --border: 1px solid rgba(201, 162, 39, 0.2);
+    --transition: all 0.3s ease;
+}
+
+/* Header luxo com borda dourada */
+[data-theme="luxury"] .header {
+    background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+    border-bottom: 1px solid rgba(201, 162, 39, 0.3);
+}
+
+/* Hero luxo */
+[data-theme="luxury"] .hero {
+    background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+    border-bottom: 1px solid rgba(201, 162, 39, 0.2);
+}
+
+/* Stats luxo */
+[data-theme="luxury"] .stats {
+    background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+    border-top: 1px solid rgba(201, 162, 39, 0.2);
+    border-bottom: 1px solid rgba(201, 162, 39, 0.2);
+}
+
+/* Footer luxo */
+[data-theme="luxury"] .footer {
+    background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+    border-top: 1px solid rgba(201, 162, 39, 0.2);
+}
+
+/* Textos luxuosos */
+[data-theme="luxury"] .property-price,
+[data-theme="luxury"] .modal-price,
+[data-theme="luxury"] .stat-item i {
+    color: var(--secondary);
+}
+
+/* Cards luxuosos com brilho */
+[data-theme="luxury"] .property-card {
+    background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+    border: 1px solid rgba(201, 162, 39, 0.2);
+}
+
+[data-theme="luxury"] .property-card:hover {
+    border-color: rgba(201, 162, 39, 0.5);
+}
+
+/* ===========================================
+   COMO PERSONALIZAR OS TEMAS
+   
+   Para criar um novo tema:
+   1. Copie o bloco [data-theme="luxury"]
+   2. Renomeie para [data-theme="seu-tema"]
+   3. Altere os valores das variáveis CSS
+   
+   Variáveis disponíveis:
+   - --primary: Cor principal do site
+   - --secondary: Cor secundária (botões, destaques)
+   - --accent: Cor de destaque (ícones, favoritos)
+   - --bg: Cor de fundo da página
+   - --bg-card: Cor de fundo dos cards
+   - --bg-header: Cor de fundo do cabeçalho
+   - --text: Cor principal do texto
+   - --text-light: Cor do texto secundário
+   - --shadow: Sombra dos cards
+   - --radius: Arredondamento dos cantos
+   =========================================== */
