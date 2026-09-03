@@ -372,8 +372,9 @@ function editProperty(id) {
     form.description.value = property.description;
     form.featured.checked = property.featured || false;
 
-    // Set images
-    form.images.value = property.images.join('\n');
+    // Set images for new upload system
+    propertyImages = property.images ? [...property.images] : [];
+    renderPropertyImageGrid();
 
     // Set features checkboxes
     if (property.features) {
@@ -409,9 +410,8 @@ function handlePropertySubmit(e) {
         features.push(cb.value);
     });
 
-    // Get images
-    const imagesText = form.images.value;
-    const images = imagesText.split('\n').filter(img => img.trim() !== '');
+    // Get images from the new upload system
+    const images = propertyImages.length > 0 ? propertyImages : ['https://via.placeholder.com/800x600'];
 
     const propertyData = {
         id: adminState.editingPropertyId || Date.now(),
@@ -427,7 +427,7 @@ function handlePropertySubmit(e) {
         address: form.address.value,
         description: form.description.value,
         features: features,
-        images: images.length > 0 ? images : ['https://via.placeholder.com/800x600'],
+        images: images,
         featured: form.featured.checked
     };
 
@@ -453,10 +453,13 @@ function clearPropertyForm() {
     const form = document.getElementById('propertyForm');
     form.reset();
     adminState.editingPropertyId = null;
-    document.getElementById('uploadedImages').innerHTML = '';
+    propertyImages = [];
+    renderPropertyImageGrid();
 }
 
 // ============ IMAGE UPLOAD ============
+let propertyImages = [];
+
 function setupImageUpload() {
     const uploadArea = document.getElementById('uploadArea');
     const imageUpload = document.getElementById('imageUpload');
@@ -511,6 +514,89 @@ function setupImageUpload() {
             handleFiles(e.target.files);
         });
     }
+
+    // Property images upload (new simplified version)
+    const addMoreImages = document.getElementById('addMoreImages');
+    const propertyImagesInput = document.getElementById('propertyImages');
+
+    if (addMoreImages && propertyImagesInput) {
+        addMoreImages.addEventListener('click', () => {
+            propertyImagesInput.click();
+        });
+
+        propertyImagesInput.addEventListener('change', (e) => {
+            handlePropertyImageUpload(e.target.files);
+        });
+    }
+}
+
+function handlePropertyImageUpload(files) {
+    Array.from(files).forEach(file => {
+        if (!file.type.startsWith('image/')) return;
+        if (file.size > 5 * 1024 * 1024) {
+            showToast(`Arquivo muito grande: ${file.name}`, 'error');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const imageData = e.target.result;
+            propertyImages.push(imageData);
+            renderPropertyImageGrid();
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+function renderPropertyImageGrid() {
+    const grid = document.getElementById('imageUploadGrid');
+    if (!grid) return;
+
+    let html = '';
+
+    propertyImages.forEach((img, index) => {
+        html += `
+            <div class="image-upload-item">
+                <img src="${img}" alt="Imagem ${index + 1}">
+                <button class="remove-btn" onclick="removePropertyImage(${index})">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+    });
+
+    html += `
+        <div class="image-upload-item add-more" id="addMoreImages">
+            <i class="fas fa-plus"></i>
+            <span>Adicionar Fotos</span>
+            <input type="file" id="propertyImages" multiple accept="image/*" style="display: none;">
+        </div>
+    `;
+
+    grid.innerHTML = html;
+
+    // Reattach event listener to new element
+    const newAddMoreImages = document.getElementById('addMoreImages');
+    const newPropertyImagesInput = document.getElementById('propertyImages');
+    if (newAddMoreImages && newPropertyImagesInput) {
+        newAddMoreImages.addEventListener('click', () => {
+            newPropertyImagesInput.click();
+        });
+        newPropertyImagesInput.addEventListener('change', (e) => {
+            handlePropertyImageUpload(e.target.files);
+        });
+    }
+
+    // Update textarea with image URLs
+    const imagesUrls = document.getElementById('imagesUrls');
+    if (imagesUrls) {
+        imagesUrls.value = propertyImages.join('\n');
+    }
+}
+
+function removePropertyImage(index) {
+    propertyImages.splice(index, 1);
+    renderPropertyImageGrid();
 }
 
 function handleFiles(files) {
@@ -953,6 +1039,7 @@ window.editProperty = editProperty;
 window.deleteProperty = deleteProperty;
 window.viewProperty = viewProperty;
 window.removeImage = removeImage;
+window.removePropertyImage = removePropertyImage;
 window.copyImageUrl = copyImageUrl;
 window.editTestimonial = editTestimonial;
 window.deleteTestimonial = deleteTestimonial;
