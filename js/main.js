@@ -628,6 +628,7 @@ updateFavoritesUI();
 updateCompareUI();
 displayProperties();
 loadTestimonials();
+loadSettings();
 
 // Run simulator with default values on load
 if (document.getElementById('simValue')) {
@@ -641,6 +642,7 @@ setInterval(() => {
         filteredProperties = newProperties;
         displayProperties();
     }
+    loadSettings();
 }, 2000);
 
 // Load testimonials from admin panel
@@ -671,4 +673,37 @@ function loadTestimonials() {
             </div>
         </div>
     `).join('');
+}
+
+// Load settings from admin panel
+function loadSettings() {
+    const settings = JSON.parse(localStorage.getItem('admin_settings'));
+    if (!settings) return;
+
+    const companyName = document.getElementById('companyName');
+    const contactAddress = document.getElementById('contactAddress');
+    const contactPhone = document.getElementById('contactPhone');
+    const contactEmail = document.getElementById('contactEmail');
+    const footerCompanyName = document.getElementById('footerCompanyName');
+    const whatsappFloatLink = document.querySelector('.whatsapp-float a');
+    const whatsappBtn = document.querySelector('.social-btn.whatsapp');
+
+    if (companyName) companyName.textContent = settings.companyName || 'ImobPrime';
+    if (footerCompanyName) footerCompanyName.textContent = settings.companyName || 'ImobPrime';
+    if (contactAddress) contactAddress.innerHTML = (settings.companyAddress || '').replace(',', '<br>');
+    if (contactPhone) contactPhone.textContent = settings.companyPhone || '';
+    if (contactEmail) contactEmail.textContent = settings.companyEmail || '';
+    if (whatsappFloatLink && settings.companyWhatsapp) {
+        whatsappFloatLink.href = `https://wa.me/${settings.companyWhatsapp}`;
+    }
+    if (whatsappBtn && settings.companyWhatsapp) {
+        whatsappBtn.href = `https://wa.me/${settings.companyWhatsapp}`;
+    }
+
+    if (settings.primaryColor) {
+        document.documentElement.style.setProperty('--primary', settings.primaryColor);
+    }
+    if (settings.secondaryColor) {
+        document.documentElement.style.setProperty('--secondary', settings.secondaryColor);
+    }
 }
