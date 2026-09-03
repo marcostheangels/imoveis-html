@@ -14,6 +14,7 @@ const filterType = document.getElementById('filterType');
 const filterPurpose = document.getElementById('filterPurpose');
 const filterPrice = document.getElementById('filterPrice');
 const filterRooms = document.getElementById('filterRooms');
+const filterSort = document.getElementById('filterSort');
 const resetFilters = document.getElementById('resetFilters');
 const favoritesToggle = document.getElementById('favoritesToggle');
 const favoritesList = document.getElementById('favoritesList');
@@ -23,6 +24,9 @@ const compareCount = document.getElementById('compareCount');
 const modal = document.getElementById('propertyModal');
 const modalBody = document.getElementById('modalBody');
 const modalClose = document.querySelector('.modal-close');
+const backToTop = document.getElementById('backToTop');
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const navMenu = document.getElementById('navMenu');
 
 // Theme switcher functionality
 function initializeTheme() {
@@ -49,10 +53,46 @@ document.querySelectorAll('.theme-btn').forEach(btn => {
     });
 });
 
+// Mobile menu
+if (mobileMenuBtn && navMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        mobileMenuBtn.innerHTML = navMenu.classList.contains('active')
+            ? '<i class="fas fa-times"></i>'
+            : '<i class="fas fa-bars"></i>';
+    });
+}
+
+// Close mobile menu when clicking a link
+document.querySelectorAll('.nav-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+    });
+});
+
+// Back to top button
+window.addEventListener('scroll', () => {
+    if (backToTop) {
+        if (window.scrollY > 500) {
+            backToTop.classList.add('show');
+        } else {
+            backToTop.classList.remove('show');
+        }
+    }
+});
+
+if (backToTop) {
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
 // Property card template
 function createPropertyCard(property) {
     const price = property.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     const isFeatured = property.featured ? '<span class="property-badge badge-featured">Destaque</span>' : '';
+    const isNew = !property.featured && property.id > 20 ? '<span class="property-badge badge-new">Novo</span>' : '';
     const isFavorite = favorites.some(fav => fav.id === property.id) ? 'favorited' : '';
     const isComparing = compareList.some(item => item.id === property.id) ? 'comparing' : '';
 
@@ -61,6 +101,7 @@ function createPropertyCard(property) {
             <div class="property-image">
                 <img src="${property.images[0]}" alt="${property.title}" loading="lazy">
                 ${isFeatured}
+                ${isNew}
                 <div class="property-actions">
                     <button class="btn-favorite ${isFavorite}" onclick="toggleFavorite(${property.id}, event)" title="Favoritar">
                         <i class="fas fa-heart"></i>
@@ -78,22 +119,10 @@ function createPropertyCard(property) {
                     <span>${property.location}</span>
                 </div>
                 <div class="property-features">
-                    <div class="feature">
-                        <i class="fas fa-bed"></i>
-                        <span>${property.rooms}</span>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-bath"></i>
-                        <span>${property.bathrooms}</span>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-car"></i>
-                        <span>${property.garages}</span>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-ruler-combined"></i>
-                        <span>${property.area}m²</span>
-                    </div>
+                    ${property.rooms > 0 ? `<div class="feature"><i class="fas fa-bed"></i><span>${property.rooms}</span></div>` : ''}
+                    ${property.bathrooms > 0 ? `<div class="feature"><i class="fas fa-bath"></i><span>${property.bathrooms}</span></div>` : ''}
+                    ${property.garages > 0 ? `<div class="feature"><i class="fas fa-car"></i><span>${property.garages}</span></div>` : ''}
+                    ${property.area > 0 ? `<div class="feature"><i class="fas fa-ruler-combined"></i><span>${property.area}m²</span></div>` : ''}
                 </div>
             </div>
         </div>
@@ -104,8 +133,31 @@ function createPropertyCard(property) {
 function displayProperties() {
     if (!propertyGrid) return;
 
+    // Update results count
+    const resultsCount = document.getElementById('resultsCount');
+    if (resultsCount) {
+        resultsCount.textContent = filteredProperties.length;
+    }
+
+    if (filteredProperties.length === 0) {
+        propertyGrid.innerHTML = `
+            <div class="no-results">
+                <i class="fas fa-search"></i>
+                <h3>Nenhum imóvel encontrado</h3>
+                <p>Tente ajustar os filtros ou buscar por outro termo.</p>
+            </div>
+        `;
+        return;
+    }
+
     const html = filteredProperties.map(property => createPropertyCard(property)).join('');
-    propertyGrid.innerHTML = html || '<div class="no-results">Nenhum imóvel encontrado.</div>';
+    propertyGrid.innerHTML = html;
+
+    // Show loading effect
+    propertyGrid.style.opacity = '0.5';
+    setTimeout(() => {
+        propertyGrid.style.opacity = '1';
+    }, 200);
 }
 
 // Filter properties
@@ -115,11 +167,13 @@ function filterProperties() {
     const purpose = filterPurpose?.value || 'all';
     const price = filterPrice?.value || 'all';
     const rooms = filterRooms?.value || 'all';
+    const sort = filterSort?.value || 'featured';
 
     filteredProperties = properties.filter(property => {
         const matchesSearch = property.title.toLowerCase().includes(searchTerm) ||
                             property.location.toLowerCase().includes(searchTerm) ||
-                            property.address.toLowerCase().includes(searchTerm);
+                            property.address?.toLowerCase().includes(searchTerm) ||
+                            property.description?.toLowerCase().includes(searchTerm);
 
         const matchesType = type === 'all' || property.type === type;
         const matchesPurpose = purpose === 'all' || property.purpose === purpose;
@@ -129,12 +183,33 @@ function filterProperties() {
         return matchesSearch && matchesType && matchesPurpose && matchesPrice && matchesRooms;
     });
 
+    // Sort properties
+    switch (sort) {
+        case 'price-asc':
+            filteredProperties.sort((a, b) => a.price - b.price);
+            break;
+        case 'price-desc':
+            filteredProperties.sort((a, b) => b.price - a.price);
+            break;
+        case 'area-desc':
+            filteredProperties.sort((a, b) => b.area - a.area);
+            break;
+        case 'featured':
+        default:
+            filteredProperties.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+            break;
+    }
+
     displayProperties();
 }
 
 // Event listeners
 if (searchInput && searchBtn) {
-    searchInput.addEventListener('keyup', filterProperties);
+    searchInput.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') {
+            filterProperties();
+        }
+    });
     searchBtn.addEventListener('click', filterProperties);
 }
 
@@ -142,6 +217,7 @@ if (filterType) filterType.addEventListener('change', filterProperties);
 if (filterPurpose) filterPurpose.addEventListener('change', filterProperties);
 if (filterPrice) filterPrice.addEventListener('change', filterProperties);
 if (filterRooms) filterRooms.addEventListener('change', filterProperties);
+if (filterSort) filterSort.addEventListener('change', filterProperties);
 
 if (resetFilters) {
     resetFilters.addEventListener('click', () => {
@@ -150,6 +226,7 @@ if (resetFilters) {
         if (filterPurpose) filterPurpose.value = 'all';
         if (filterPrice) filterPrice.value = 'all';
         if (filterRooms) filterRooms.value = 'all';
+        if (filterSort) filterSort.value = 'featured';
         filteredProperties = [...properties];
         displayProperties();
     });
@@ -164,8 +241,10 @@ function toggleFavorite(propertyId, event) {
 
     if (index === -1) {
         favorites.push(property);
+        showToast('Adicionado aos favoritos!', 'success');
     } else {
         favorites.splice(index, 1);
+        showToast('Removido dos favoritos', 'info');
     }
 
     localStorage.setItem('favorites', JSON.stringify(favorites));
@@ -204,10 +283,18 @@ function updateFavoritesUI() {
 }
 
 if (favoritesToggle && favoritesList) {
-    favoritesToggle.addEventListener('click', () => {
+    favoritesToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
         favoritesList.classList.toggle('active');
     });
 }
+
+// Close favorites panel when clicking outside
+document.addEventListener('click', () => {
+    if (favoritesList) {
+        favoritesList.classList.remove('active');
+    }
+});
 
 // Compare functionality
 function toggleCompare(propertyId, event) {
@@ -218,8 +305,13 @@ function toggleCompare(propertyId, event) {
 
     if (index === -1 && compareList.length < maxCompareItems) {
         compareList.push(property);
+        showToast('Adicionado à comparação!', 'success');
     } else if (index !== -1) {
         compareList.splice(index, 1);
+        showToast('Removido da comparação', 'info');
+    } else if (compareList.length >= maxCompareItems) {
+        showToast(`Máximo de ${maxCompareItems} imóveis para comparar`, 'error');
+        return;
     }
 
     localStorage.setItem('compareList', JSON.stringify(compareList));
@@ -258,13 +350,15 @@ function openPropertyModal(propertyId) {
     const modalHTML = `
         <div class="modal-gallery">
             <img src="${property.images[0]}" alt="${property.title}">
-            <button class="gallery-nav prev" onclick="navigateGallery(-1)">&#10094;</button>
-            <button class="gallery-nav next" onclick="navigateGallery(1)">&#10095;</button>
-            <div class="gallery-dots">
-                ${property.images.map((_, index) => `
-                    <button class="gallery-dot ${index === 0 ? 'active' : ''}" onclick="navigateToImage(${index})"></button>
-                `).join('')}
-            </div>
+            ${property.images.length > 1 ? `
+                <button class="gallery-nav prev" onclick="navigateGallery(-1)">&#10094;</button>
+                <button class="gallery-nav next" onclick="navigateGallery(1)">&#10095;</button>
+                <div class="gallery-dots">
+                    ${property.images.map((_, index) => `
+                        <button class="gallery-dot ${index === 0 ? 'active' : ''}" onclick="navigateToImage(${index})"></button>
+                    `).join('')}
+                </div>
+            ` : ''}
         </div>
         <div class="modal-details">
             <h2>${property.title}</h2>
@@ -275,35 +369,49 @@ function openPropertyModal(propertyId) {
             </div>
             <p class="modal-description">${property.description}</p>
             <div class="modal-specs">
-                <div class="spec-item">
-                    <i class="fas fa-bed"></i>
-                    <span>${property.rooms} Quartos</span>
-                </div>
-                <div class="spec-item">
-                    <i class="fas fa-bath"></i>
-                    <span>${property.bathrooms} Banheiros</span>
-                </div>
-                <div class="spec-item">
-                    <i class="fas fa-car"></i>
-                    <span>${property.garages} Garagens</span>
-                </div>
-                <div class="spec-item">
-                    <i class="fas fa-ruler-combined"></i>
-                    <span>${property.area}m²</span>
-                </div>
+                ${property.rooms > 0 ? `
+                    <div class="spec-item">
+                        <i class="fas fa-bed"></i>
+                        <span>Quartos</span>
+                        <strong>${property.rooms}</strong>
+                    </div>
+                ` : ''}
+                ${property.bathrooms > 0 ? `
+                    <div class="spec-item">
+                        <i class="fas fa-bath"></i>
+                        <span>Banheiros</span>
+                        <strong>${property.bathrooms}</strong>
+                    </div>
+                ` : ''}
+                ${property.garages > 0 ? `
+                    <div class="spec-item">
+                        <i class="fas fa-car"></i>
+                        <span>Garagens</span>
+                        <strong>${property.garages}</strong>
+                    </div>
+                ` : ''}
+                ${property.area > 0 ? `
+                    <div class="spec-item">
+                        <i class="fas fa-ruler-combined"></i>
+                        <span>Área</span>
+                        <strong>${property.area}m²</strong>
+                    </div>
+                ` : ''}
             </div>
-            <div class="modal-features">
-                <h3>Características</h3>
-                <ul class="features-list">
-                    ${property.features.map(feature => `<li><i class="fas fa-check-circle"></i> <span>${feature}</span></li>`).join('')}
-                </ul>
-            </div>
+            ${property.features && property.features.length > 0 ? `
+                <div class="modal-features">
+                    <h3>Características</h3>
+                    <ul class="features-list">
+                        ${property.features.map(feature => `<li><i class="fas fa-check-circle"></i> <span>${feature}</span></li>`).join('')}
+                    </ul>
+                </div>
+            ` : ''}
             <div class="modal-actions">
-                <button class="btn btn-primary" onclick="toggleFavorite(${property.id}, event)">
-                    <i class="fas fa-heart"></i> ${favorites.some(fav => fav.id === property.id) ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}
-                </button>
-                <button class="btn btn-secondary" onclick="toggleCompare(${property.id}, event)">
-                    <i class="fas fa-balance-scale"></i> ${compareList.some(item => item.id === property.id) ? 'Remover da Comparação' : 'Adicionar à Comparação'}
+                <a href="https://wa.me/5511999999999?text=Olá! Gostaria de saber mais sobre o imóvel: ${encodeURIComponent(property.title)}" target="_blank" class="btn btn-primary">
+                    <i class="fab fa-whatsapp"></i> Agendar Visita
+                </a>
+                <button class="btn btn-secondary" onclick="toggleFavorite(${property.id}, event)">
+                    <i class="fas fa-heart"></i> ${favorites.some(fav => fav.id === property.id) ? 'Remover Favorito' : 'Favoritar'}
                 </button>
             </div>
         </div>
@@ -311,10 +419,12 @@ function openPropertyModal(propertyId) {
 
     modalBody.innerHTML = modalHTML;
     modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
 
 function closeModal() {
     modal.classList.remove('active');
+    document.body.style.overflow = '';
     currentModalProperty = null;
 }
 
@@ -322,13 +432,21 @@ if (modalClose) {
     modalClose.addEventListener('click', closeModal);
 }
 
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        closeModal();
+    }
+});
+
 function navigateGallery(direction) {
     if (!currentModalProperty) return;
 
     currentImageIndex = (currentImageIndex + direction + currentModalProperty.images.length) % currentModalProperty.images.length;
 
     const modalImg = document.querySelector('.modal-gallery img');
-    modalImg.src = currentModalProperty.images[currentImageIndex];
+    if (modalImg) {
+        modalImg.src = currentModalProperty.images[currentImageIndex];
+    }
 
     document.querySelectorAll('.gallery-dot').forEach((dot, index) => {
         dot.classList.toggle('active', index === currentImageIndex);
@@ -338,12 +456,27 @@ function navigateGallery(direction) {
 function navigateToImage(index) {
     currentImageIndex = index;
     const modalImg = document.querySelector('.modal-gallery img');
-    modalImg.src = currentModalProperty.images[currentImageIndex];
+    if (modalImg && currentModalProperty) {
+        modalImg.src = currentModalProperty.images[currentImageIndex];
+    }
 
     document.querySelectorAll('.gallery-dot').forEach((dot, idx) => {
         dot.classList.toggle('active', idx === index);
     });
 }
+
+// Keyboard navigation for gallery
+document.addEventListener('keydown', (e) => {
+    if (!modal.classList.contains('active')) return;
+
+    if (e.key === 'ArrowLeft') {
+        navigateGallery(-1);
+    } else if (e.key === 'ArrowRight') {
+        navigateGallery(1);
+    } else if (e.key === 'Escape') {
+        closeModal();
+    }
+});
 
 window.openPropertyModal = openPropertyModal;
 window.closeModal = closeModal;
@@ -353,50 +486,52 @@ window.toggleFavorite = toggleFavorite;
 window.toggleCompare = toggleCompare;
 
 function showCompareModal() {
-    const compareModal = document.createElement('div');
-    compareModal.className = 'compare-modal';
-    compareModal.innerHTML = `
-        <div class="compare-content">
-            <h2>Comparar Imóveis</h2>
-            <div class="compare-grid">
-                ${compareList.map(property => {
-                    const price = property.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-                    return `
-                        <div class="compare-item">
-                            <img src="${property.images[0]}" alt="${property.title}">
-                            <h4>${property.title}</h4>
-                            <p><strong>Preço:</strong> ${price}</p>
-                            <p><strong>Localização:</strong> ${property.location}</p>
-                            <p><strong>Quartos:</strong> ${property.rooms}</p>
-                            <p><strong>Área:</strong> ${property.area}m²</p>
-                            <button class="btn btn-secondary" onclick="toggleCompare(${property.id}, event)">
-                                <i class="fas fa-times"></i> Remover
-                            </button>
-                        </div>
-                    `;
-                }).join('')}
-            </div>
-            <div class="compare-actions">
-                <button class="btn btn-primary" onclick="closeCompareModal()">Fechar Comparação</button>
-            </div>
-        </div>
-    `;
+    const compareGrid = document.getElementById('compareGrid');
+    if (!compareGrid) return;
 
-    document.body.appendChild(compareModal);
-    compareModal.classList.add('active');
+    compareGrid.innerHTML = compareList.map(property => {
+        const price = property.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        return `
+            <div class="compare-item">
+                <img src="${property.images[0]}" alt="${property.title}">
+                <h4>${property.title}</h4>
+                <p><strong>Preço:</strong> ${price}</p>
+                <p><strong>Localização:</strong> ${property.location}</p>
+                <p><strong>Quartos:</strong> ${property.rooms}</p>
+                <p><strong>Banheiros:</strong> ${property.bathrooms}</p>
+                <p><strong>Garagem:</strong> ${property.garages}</p>
+                <p><strong>Área:</strong> ${property.area}m²</p>
+                <button class="btn btn-secondary btn-sm" onclick="toggleCompare(${property.id}, event)">
+                    <i class="fas fa-times"></i> Remover
+                </button>
+            </div>
+        `;
+    }).join('');
 
-    compareModal.querySelector('.btn-primary').addEventListener('click', closeCompareModal);
+    document.getElementById('compareModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
 
-function closeCompareModal() {
-    const compareModal = document.querySelector('.compare-modal');
-    if (compareModal) {
-        compareModal.classList.remove('active');
-        setTimeout(() => compareModal.remove(), 300);
-    }
+function closeCompareModalFn() {
+    document.getElementById('compareModal').classList.remove('active');
+    document.body.style.overflow = '';
 }
 
-window.closeCompareModal = closeCompareModal;
+function clearCompareList() {
+    compareList = [];
+    localStorage.setItem('compareList', JSON.stringify(compareList));
+    updateCompareUI();
+    closeCompareModalFn();
+    displayProperties();
+}
+
+if (document.getElementById('closeCompareModal')) {
+    document.getElementById('closeCompareModal').addEventListener('click', closeCompareModalFn);
+}
+
+if (document.getElementById('clearCompare')) {
+    document.getElementById('clearCompare').addEventListener('click', clearCompareList);
+}
 
 // Form submission
 const contactForm = document.getElementById('contactForm');
@@ -404,10 +539,76 @@ if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const formData = new FormData(contactForm);
-        const data = Object.fromEntries(formData);
+        const data = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            interest: formData.get('interest'),
+            property_type: formData.get('property_type'),
+            message: formData.get('message'),
+            date: new Date().toISOString()
+        };
+
+        // Save message to admin messages
+        const messages = JSON.parse(localStorage.getItem('admin_messages') || '[]');
+        messages.unshift({ ...data, id: Date.now() });
+        localStorage.setItem('admin_messages', JSON.stringify(messages));
+
         alert('Obrigado por entrar em contato! Entraremos em contato em breve.');
         contactForm.reset();
     });
+}
+
+// Toast notification
+function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i><span>${message}</span>`;
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+// Simulator functionality
+const calculateSimulator = document.getElementById('calculateSimulator');
+if (calculateSimulator) {
+    calculateSimulator.addEventListener('click', calculateFinancing);
+}
+
+const simMonths = document.getElementById('simMonths');
+if (simMonths) {
+    simMonths.addEventListener('input', () => {
+        document.getElementById('simMonthsValue').textContent = `${simMonths.value} meses`;
+    });
+}
+
+function calculateFinancing() {
+    const value = parseFloat(document.getElementById('simValue').value.replace(/\D/g, '')) || 0;
+    const entry = parseFloat(document.getElementById('simEntry').value.replace(/\D/g, '')) || 0;
+    const months = parseInt(document.getElementById('simMonths').value) || 240;
+    const rate = parseFloat(document.getElementById('simRate').value.replace(',', '.')) || 10;
+
+    const financed = value - entry;
+    const monthlyRate = rate / 100 / 12;
+
+    if (financed <= 0) {
+        alert('O valor financiado deve ser maior que zero.');
+        return;
+    }
+
+    // SAC formula (simplified)
+    const monthlyPayment = financed * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+    const totalPayment = monthlyPayment * months;
+    const totalInterest = totalPayment - financed;
+
+    document.getElementById('financedValue').textContent = financed.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    document.getElementById('monthlyPayment').textContent = monthlyPayment.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    document.getElementById('totalPayment').textContent = totalPayment.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    document.getElementById('totalInterest').textContent = totalInterest.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
 // Initialize
@@ -416,3 +617,8 @@ filteredProperties = [...properties];
 updateFavoritesUI();
 updateCompareUI();
 displayProperties();
+
+// Run simulator with default values on load
+if (document.getElementById('simValue')) {
+    setTimeout(calculateFinancing, 500);
+}
