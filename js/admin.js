@@ -143,8 +143,10 @@ function setupEventListeners() {
     });
 
     // Compare Modal
-    document.getElementById('closeCompareModal').addEventListener('click', closeCompareModalFn);
-    document.getElementById('clearCompare').addEventListener('click', clearCompareList);
+    const closeCompareModalEl = document.getElementById('closeCompareModal');
+    const clearCompareEl = document.getElementById('clearCompare');
+    if (closeCompareModalEl) closeCompareModalEl.addEventListener('click', closeCompareModalFn);
+    if (clearCompareEl) clearCompareEl.addEventListener('click', clearCompareList);
 }
 
 function navigateToSection(sectionId) {
@@ -416,7 +418,7 @@ function handlePropertySubmit(e) {
         title: form.title.value,
         type: form.type.value,
         purpose: form.purpose.value,
-        price: parseFloat(form.price.replace(/\D/g, '')) || 0,
+        price: parseFloat(String(form.price.value).replace(/\D/g, '')) || 0,
         rooms: parseInt(form.rooms.value) || 0,
         bathrooms: parseInt(form.bathrooms.value) || 0,
         garages: parseInt(form.garages.value) || 0,
